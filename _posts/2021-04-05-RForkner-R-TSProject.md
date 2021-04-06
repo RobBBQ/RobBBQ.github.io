@@ -10,35 +10,26 @@ mathjax: "true"
 
 # Overview
 ## A home owner has become more aware of their power usage and has decided to track their consumption using 3 power meters in their house.  These meters take a measurement every minute.  By analyzing their power usage, the owner wants to try to predict their consumption in the futute.
-
 # Project Goals
 ## Use the sub-metered power consumption data to:
-### 1. Create a time series of power consumtion for a given period.
-### 2. Model the time series and predict future power consumption. 
-
-## Step 1. Install Modules and Libraries
-
+  ### 1. Create a time series of power consumtion for a given period.
+  ### 2. Model the time series and predict future power consumption. 
+## Step 1. Install Modules and Libraries.  These libraries will allow for data loading, examination, analysis, visualization, and forecasting:
 ```r
-#' Install tidyverse from CRAN
 install.packages("tidyverse")
 library(tidyverse)
-#' Install SQL
 install.packages("RMySQL")
 library(RMySQL)
-#' Install Lubridate in order to be able to extract DateTime data into individual attributes:
 install.packages("lubridate")
 library(lubridate)
-#' Install pastecs to compute descriptive statistics
 install.packages("pastecs")
 library(pastecs)
-#' Install visualization libraries
 install.packages("ggplot2")
 library(ggplot2)
 install.packages("ggfortify")
 library(ggfortify)
 install.packages("plotly")
 library(plotly)
-#' Install Forecasting library
 install.packages("forecast")
 library(forecast)
 ```
