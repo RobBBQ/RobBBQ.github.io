@@ -8,42 +8,42 @@ excerpt: "Data Science, Messy Data, Data Analytics"
 mathjax: "true"
 ---
 
-### Overview
+# Overview
 ## A home owner has become more aware of their power usage and has decided to track their consumption using 3 power meters in their house.  These meters take a measurement every minute.  By analyzing their power usage, the owner wants to try to predict their consumption in the futute.
 
-### Project Goals
+# Project Goals
 ## Use the sub-metered power consumption data to:
-# 1. Create a time series of power consumtion for a given period.
-# 2. Model the time series and predict future power consumption. 
+### 1. Create a time series of power consumtion for a given period.
+### 2. Model the time series and predict future power consumption. 
 
 ## Step 1. Install Modules and Libraries
 
 ```r
 #' Install tidyverse from CRAN
-# install.packages("tidyverse")
+install.packages("tidyverse")
 library(tidyverse)
 #' Install SQL
-# install.packages("RMySQL")
+install.packages("RMySQL")
 library(RMySQL)
 #' Install Lubridate in order to be able to extract DateTime data into individual attributes:
-# install.packages("lubridate")
+install.packages("lubridate")
 library(lubridate)
 #' Install pastecs to compute descriptive statistics
-# install.packages("pastecs")
+install.packages("pastecs")
 library(pastecs)
 #' Install visualization libraries
-# install.packages("ggplot2")
+install.packages("ggplot2")
 library(ggplot2)
-# install.packages("ggfortify")
+install.packages("ggfortify")
 library(ggfortify)
-# install.packages("plotly")
+install.packages("plotly")
 library(plotly)
-#' Install TSA package for Fourier transform
-# install.packages("TSA")
-library(TSA)
 #' Install Forecasting library
-# install.packages("forecast")
+install.packages("forecast")
 library(forecast)
+```
+### Step 2. Link to the dataset and examine 
+```r
 #' Create a database connection: 
 con = dbConnect(MySQL(), user='deepAnalytics', password='Sqltask1234!', dbname='dataanalytics2018', host='data-analytics-2018.cbrosir2cswx.us-east-1.rds.amazonaws.com')
 #' List the tables contained in the database 
