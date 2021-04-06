@@ -10,12 +10,13 @@ mathjax: "true"
 
 # Overview
 ### In many subsurface petroleum reservoirs, mobile minerals like anhydrite can occlude pore space.  This can be a major problem, especially when preducted reservoir space is clogged with something other than oil!
-
+#### In this image, anhydrite (the white crystals) occludes almost all of the space!!
+![](/images/AnhydriteImages/Anhydrite_Pores.jpg)
 
 
 ## Project Goals
-### Use the demographic data to determine:
-#### 1. How much credit should customers be allowed
-#### 2. Should a potential customer be approved for credit?
+### Use the available subsurface data (petrophysical data and core descriptions) to:
+#### 1. Establish a predictive model to account for anhydrite distribution in the subsurface.
+#### 2. Export that model to adjacent cores, and create regional maps of anhydrite distribution in the subsurface.
 
 ### Step 1. Install Modules and Libraries:
