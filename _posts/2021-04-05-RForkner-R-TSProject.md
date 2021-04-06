@@ -107,9 +107,9 @@ tshouseJan2008sm_1<-ts(houseJan2008$Sub_metering_1, frequency = 24)
 plot(tshouseJan2008sm_1)
 ```
 ### Here's a plot of power usage in January, 2008, for each sub meter
-![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan%202008%20sm1%20kitchen.jpeg)
-![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan2008%20sm2%20laundry.jpeg)
-![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan2008%20sm3%20WHAC.jpeg)
+![](/images/Jan%202008%20sm1%20kitchen.jpeg)
+![](/images/Jan2008%20sm2%20laundry.jpeg)
+![](/images/Jan2008%20sm3%20WHAC.jpeg)
 ### Step 7. In order to perform a forecast on the time series, we will decompose the time data into its component parts: the background trend, repeating seasonality and remaining noise.  This is because when we make a forecast, the model we use for the forecast will focus on the trend and the seasonality in the data.
 ```r
 DCtshouseJan2008sm_1<-decompose(tshouseJan2008sm_1)
@@ -128,7 +128,7 @@ autoplot(forecastfitSM1, colour = 'green', xlab = "Time", ylab = "Watt Hours", m
 ```
 ### Here's a plot of the power usage forecast for each submeter:  
 ![](/images/Jan2008%20sm1%20kitchen%20forecast.jpeg)
-![]/images/Jan2008%20sm2%20laundry%20forecast.jpeg)
+![](/images/Jan2008%20sm2%20laundry%20forecast.jpeg)
 ![](/images/Jan2008%20sm3%20WHAC%20forecast.jpeg)
 ### Each forecast uses the trend and seasonlity to make a prediction of power usage for 24 hours in the future with 80 and 90% confidence bands based on the linear model. 
 ### Step 9. How will each forecast perform?  We'll need to compare the result to future power usage to find out!
