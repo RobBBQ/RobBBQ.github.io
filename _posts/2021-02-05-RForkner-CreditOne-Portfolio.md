@@ -65,10 +65,10 @@ df.to_csv('credit_one.csv',index=False)
 ```
 
 ### Issues with data:
-####1. Not all data are numerical, and even numerical columns read as objects
-####2. Repeated rows
-####3. Repeated headers
-####4. Classification analyses will require discretization
+#### 1. Not all data are numerical, and even numerical columns read as objects
+#### 2. Repeated rows
+#### 3. Repeated headers
+#### 4. Classification analyses will require discretization
 
 ### Strategies for addressing concerns:
 #### 1. Remove all non-numeric rows.  This was done manually after identifying them in excel as an extra set of headers.  However, even after their removal, in order for Jupyter to read the column numerical, the dataset needs to be saved as a csv file and re-imported.  Otherwise conversions must be coded manually per column/variable
