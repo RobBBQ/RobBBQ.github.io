@@ -124,7 +124,7 @@ autoplot(forecastfitSM1, colour = 'green', xlab = "Time", ylab = "Watt Hours", m
 # PLOT sm2 laundry forecast
 # PLOT sm3 water heater and airco forecast
 ### Each forecast uses the trend and seasonlity to make a prediction of power usage for 24 hours in the future with 80 and 90% confidence bands based on the linear model. 
-### Step 9. How will each forecast perform?  We'll need to compare teh result to future power usage to find out!
+### Step 9. How will each forecast perform?  We'll need to compare the result to future power usage to find out!
 
 
 
