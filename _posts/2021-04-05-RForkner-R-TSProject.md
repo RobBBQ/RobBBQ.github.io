@@ -33,13 +33,10 @@ library(plotly)
 install.packages("forecast")
 library(forecast)
 ```
-### Step 2. Link to the dataset and examine 
+### Step 2. Link to the dataset with MySQL and examine 
 ```r
-#' Create a database connection: 
 con = dbConnect(MySQL(), user='deepAnalytics', password='Sqltask1234!', dbname='dataanalytics2018', host='data-analytics-2018.cbrosir2cswx.us-east-1.rds.amazonaws.com')
-#' List the tables contained in the database 
-dbListTables(con)
-#' Select the data for each year should be Date, Time and the 3 sub-meter attributes.
+# Select the data for each year should be Date, Time and the 3 sub-meter attributes.
 yr_2006SELECT <- dbGetQuery(con, "SELECT Date, Time, Sub_metering_1, Sub_metering_2, Sub_metering_3 FROM yr_2006")
 dbListFields(con,'yr_2007')
 yr_2007SELECT <- dbGetQuery(con, "SELECT Date, Time, Sub_metering_1, Sub_metering_2, Sub_metering_3 FROM yr_2007")
@@ -49,27 +46,15 @@ dbListFields(con,'yr_2009')
 yr_2009SELECT <- dbGetQuery(con, "SELECT Date, Time, Sub_metering_1, Sub_metering_2, Sub_metering_3 FROM yr_2009")
 dbListFields(con,'yr_2010')
 yr_2010SELECT <- dbGetQuery(con, "SELECT Date, Time, Sub_metering_1, Sub_metering_2, Sub_metering_3 FROM yr_2010")
-#' Combine tables into one dataframe using dplyr
+# Combine tables into one dataframe using dplyr
 CombinedDF <- bind_rows(yr_2007SELECT, yr_2008SELECT, yr_2009SELECT)
-#' Use str(), summary(), head() and tail() with the combined data frame to check dates.
-str(CombinedDF)
-summary(CombinedDF)
-head(CombinedDF) 
-tail(CombinedDF)
-#' Since the Date and Time columns are separate they will need to be combined within the dataset in order to convert them to the correct format for time series analysis. 
+# Since the Date and Time columns are separate they will need to be combined within the dataset in order to convert them to the correct format for time series analysis. 
 CombinedDFT <-cbind(CombinedDF,paste(CombinedDF$Date,CombinedDF$Time), stringsAsFactors=FALSE)
-#' Give the new attribute in the 6th column a header name 
-colnames(CombinedDFT)[6] <-"DateTime"
-#' Move the DateTime attribute within the dataset
-CombinedDFT <- CombinedDFT[,c(ncol(CombinedDFT), 1:(ncol(CombinedDFT)-1))]
-head(CombinedDFT)
-#' We will now want to convert the new DateTime attribute to the POSIXlt class that stores date/time values as a list of components (hour, min, sec, mon, etc.) making it easy to extract these parts.
-CombinedDFT$DateTime <- as.POSIXct(CombinedDFT$DateTime, "%Y/%m/%d %H:%M:%S")
-#' Add the time zone
-attr(CombinedDFT$DateTime, "tzone") <- "Europe/Paris"
-#' Inspect the data types
-str(CombinedDFT)
-#' Create "year", "quarter", "month", "week", "day", "hour", and "minute" attributes with lubridate
+```
+## Here's an example of the combined dataset.  1,569,894 entries in 6 columns!!!  That's power data from 2006-2010 taken every minute!
+# Image of Combined DFT
+### Step 3. We'll now use an R fucntion called 'lubridate' to create "year", "quarter", "month", "week", "day", "hour", and "minute" attributes
+```r
 CombinedDFT$year <- year(CombinedDFT$DateTime)
 CombinedDFT$quarter <- quarter(CombinedDFT$DateTime)
 CombinedDFT$month <- month(CombinedDFT$DateTime)
@@ -77,13 +62,9 @@ CombinedDFT$week <- week(CombinedDFT$DateTime)
 CombinedDFT$day <- day(CombinedDFT$DateTime)
 CombinedDFT$hour <- hour(CombinedDFT$DateTime)
 CombinedDFT$minute <- minute(CombinedDFT$DateTime)
-#' Calculate the mean, mode, standard deviation, quartiles & characterization of the distribution
-summary(CombinedDFT)
-#' Calculate descriptive statistics for sub-meters
-stat.desc(CombinedDFT$Sub_metering_1)
-stat.desc(CombinedDFT$Sub_metering_2)
-stat.desc(CombinedDFT$Sub_metering_3)
-#' Since data were acquired each minute, we'll subset the dataset to view time windows:
+```
+### Step 4. Since data were acquired each minute, the entire dataset will prove difficult to use as a whole, so we'll subset the dataset into time windows
+```r
 house9Jan2008 <- filter(CombinedDFT, year == 2008 & month == 1 & day == 9)
 #' Plot sub-meter 1, 2 and 3 with title, legend and labels - All observations 
 plot_ly(house9Jan2008, x = ~house9Jan2008$DateTime, y = ~house9Jan2008$Sub_metering_1, name = 'Kitchen', type = 'scatter', mode = 'lines') %>%
@@ -92,7 +73,12 @@ plot_ly(house9Jan2008, x = ~house9Jan2008$DateTime, y = ~house9Jan2008$Sub_meter
   layout(title = "Power Consumption January 9th, 2008",
          xaxis = list(title = "Time"),
          yaxis = list (title = "Power (watt-hours)"))
-#' We can probably coarsen the dataset somewhat: Subset the 9th day of January 2008 - 10 Minute frequency
+```
+### Here's a plot of power usage in the house on January 9, 2008:
+# PLOT 9 Jan all power use
+
+### Since that uses power measurements taken every minute, we can probably coarsen the data sampling to every 10 minutes and still see the relevant oscillations in power usage
+```r
 house9Jan2008x10min <- filter(house9Jan2008, year == 2008 & month == 1 & day == 9 & (minute == 0 | minute == 10 | minute == 20 | minute == 30 | minute == 40 | minute == 50))
 #' Plot sub-meter 1, 2 and 3 with title, legend and labels - 10 Minute frequency
 plot_ly(house9Jan2008x10min, x = ~house9Jan2008x10min$DateTime, y = ~house9Jan2008x10min$Sub_metering_1, name = 'Kitchen', type = 'scatter', mode = 'lines') %>%
@@ -101,66 +87,45 @@ plot_ly(house9Jan2008x10min, x = ~house9Jan2008x10min$DateTime, y = ~house9Jan20
   layout(title = "Power Consumption January 9th, 2008",
          xaxis = list(title = "Time"),
          yaxis = list (title = "Power (watt-hours)"))
-#' Now we'll prepare the data for Time Series Analysis
-#' First, we'll Sample the month of January 2008, with a sample taken every hour.  We then null out time to let frequency get autopicked
+```
+### Here's a plot of power usage in the house on January 9, 2008, with measurements taken every 10 minutes:
+# PLOT 9 Jan all power use 10 min
+
+### Now we'll prepare the data for Time Series Analysis.  In this case, to get enough of a sample for forecasting, we'll sample the whole month of January, 2008, with power measurements taken every hour.  We'll use the same code for each submeter.  We'll then plot each sub-meter's readings for the month:
+```r
 houseJan2008 <- filter(CombinedDFT, year == 2008 & month == 1 & (minute == 0))
 houseJan2008$Date<-NULL
 houseJan2008$Time<-NULL
 View(houseJan2008)
 str(houseJan2008)
-#' Subset to sub_meter 1; Frequency = 31 days * 24 hours.  Note: we know the main frequency is 24 hours by cross checking with periodogram.
 tshouseJan2008sm_1<-ts(houseJan2008$Sub_metering_1, frequency = 24)
 plot(tshouseJan2008sm_1)
-#' Decompose
+```
+### Here's a plot of power usage in January, 2008, for each sub meter
+# PLOT sm1 kitchen
+# PLOT sm2 laundry
+# PLOT sm3 water heater and airco
+### In order to perform a forecast on the time series, we will decompose the time data into its component parts: the background trend, repeating seasonality and remaining noise.
+```r
 DCtshouseJan2008sm_1<-decompose(tshouseJan2008sm_1)
 autoplot(DCtshouseJan2008sm_1, main = "January, 2008 Sub-meter 1")
-#' Plot sub-meter 1 with plot.ts
-plot.ts(tshouseJan2008sm_1)
-#' Plot sub-meter 1 with autoplot - add labels, color
-autoplot(tshouseJan2008sm_1, colour = 'green', xlab = "Time", ylab = "Watt Hours", main = "January, 2008 Sub-meter 1")
-#' Subset to sub_meter 2; Frequency = 31 days * 24 hours
-tshouseJan2008sm_2<-ts(houseJan2008$Sub_metering_2, frequency = 24)
-plot(tshouseJan2008sm_2) 
-#' Decompose
-DCtshouseJan2008sm_2<-decompose(tshouseJan2008sm_2)
-autoplot(DCtshouseJan2008sm_2, main = "January, 2008 Sub-meter 2")
-#' Plot sub-meter 2 with plot.ts
-plot.ts(tshouseJan2008sm_2)
-#' Plot sub-meter 2 with autoplot - add labels, color
-autoplot(tshouseJan2008sm_2, colour = 'blue', xlab = "Time", ylab = "Watt Hours", main = "January, 2008 Sub-meter 2")
-#' Subset to sub_meter 3; Frequency = 31 days * 24 hours
-tshouseJan2008sm_3<-ts(houseJan2008$Sub_metering_3, frequency = 24)
-plot(tshouseJan2008sm_3) 
-#' Decompose
-DCtshouseJan2008sm_3<-decompose(tshouseJan2008sm_3)
-autoplot(DCtshouseJan2008sm_3, main = "January, 2008 Sub-meter 3")
-#' Plot sub-meter 3 with plot.ts
-plot.ts(tshouseJan2008sm_3)
-#' Plot sub-meter 3 with autoplot - add labels, color
-autoplot(tshouseJan2008sm_3, colour = 'red', xlab = "Time", ylab = "Watt Hours", main = "January, 2008 Sub-meter 3")
-#' Now we will create three different time series linear models (tslm) for Jan 2008 for each sub-meter.  We'll use these models in the forecast package to forecast usaage for the next day.
+```
+### Here's a plot of the time series decomposition from Sub-meter 1.  
+# PLOT sm1 decomp
+### Now we will create a time series linear models (tslm) for Jan 2008 for each sub-meter.  There are many models we can apply, but in this case we'll run a simple linear model for the trend and the seasonality.  We'll use these models in the forecast package to forecast usaage for the next day.
+```r
 fitSM1 <- tslm(tshouseJan2008sm_1 ~ trend + season) 
 summary(fitSM1)
-#' Create the forecast for sub-meter 1. Forecast ahead 1 day (h=24), with confidence levels 80 and 90 
 forecastfitSM1 <- forecast(fitSM1, h=24, level=c(80,90))
-#' Plot the forecast for sub-meter 1. 
 autoplot(forecastfitSM1, colour = 'green', xlab = "Time", ylab = "Watt Hours", main = "January, 2008 Sub-meter 1")
-#' Apply time series linear regression to the sub-meter 2 ts 
-fitSM2 <- tslm(tshouseJan2008sm_2 ~ trend + season) 
-summary(fitSM2)
-#' Create the forecast for sub-meter 2.  Forecast ahead 1 day (h=24), with confidence levels 80 and 90 
-forecastfitSM2 <- forecast(fitSM2, h=24, level=c(80,90))
-#' Plot the forecast for sub-meter 2. 
-autoplot(forecastfitSM2, colour = 'blue', xlab = "Time", ylab = "Watt Hours", main = "January, 2008 Sub-meter 2")
-#' Apply time series linear regression to the sub-meter 3 ts 
-fitSM3 <- tslm(tshouseJan2008sm_3 ~ trend + season) 
-summary(fitSM3)
-#' Create the forecast for sub-meter 3.  Forecast ahead 1 day (h=24), with confidence levels 80 and 90 
-forecastfitSM3 <- forecast(fitSM3, h=24, level=c(80,90))
-#' Plot the forecast for sub-meter 3. 
-autoplot(forecastfitSM3, colour = 'red', xlab = "Time", ylab = "Watt Hours", main = "January, 2008 Sub-meter 3")
-
 ```
+### Here's a plot of the power usage forecast for each submeter:  
+# PLOT sm1 kitchen forecast
+# PLOT sm2 laundry forecast
+# PLOT sm3 water heater and airco forecast
+### Each forecast uses the trend and seasonlity to make a prediction of power usage for 24 hours in the future with 80 and 90% confidence bands based on the linear model. 
+### How will each forecast perform?  We'll need to compare teh result to future power usage to find out!
+
 
 
 © 2021 GitHub, Inc.
