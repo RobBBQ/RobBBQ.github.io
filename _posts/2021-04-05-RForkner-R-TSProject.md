@@ -78,7 +78,8 @@ plot_ly(house9Jan2008, x = ~house9Jan2008$DateTime, y = ~house9Jan2008$Sub_meter
          yaxis = list (title = "Power (watt-hours)"))
 ```
 ### Here's a plot of power usage in the house on January 9, 2008:
-# PLOT 9 Jan all power use
+
+![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan%209%20power%20consumption%20all.jpeg)
 
 ### Step 5. Since that uses power measurements taken every minute, we can probably coarsen the data sampling to every 10 minutes and still see the relevant oscillations in power usage
 ```r
@@ -92,7 +93,8 @@ plot_ly(house9Jan2008x10min, x = ~house9Jan2008x10min$DateTime, y = ~house9Jan20
          yaxis = list (title = "Power (watt-hours)"))
 ```
 ### Here's a plot of power usage in the house on January 9, 2008, with measurements taken every 10 minutes:
-# PLOT 9 Jan all power use 10 min
+
+![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan%209th%20power%20consumption%2010%20min.jpeg)
 
 ### Step 6. Now we'll prepare the data for Time Series Analysis.  In this case, to get enough of a sample for forecasting, we'll sample the whole month of January, 2008, with power measurements taken every hour.  We'll use the same code for each submeter.  We'll then plot each sub-meter's readings for the month:
 ```r
@@ -105,9 +107,9 @@ tshouseJan2008sm_1<-ts(houseJan2008$Sub_metering_1, frequency = 24)
 plot(tshouseJan2008sm_1)
 ```
 ### Here's a plot of power usage in January, 2008, for each sub meter
-# PLOT sm1 kitchen
-# PLOT sm2 laundry
-# PLOT sm3 water heater and airco
+![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan%202008%20sm1%20kitchen.jpeg)
+![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan2008%20sm2%20laundry.jpeg)
+![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan2008%20sm3%20WHAC.jpeg)
 ### Step 7. In order to perform a forecast on the time series, we will decompose the time data into its component parts: the background trend, repeating seasonality and remaining noise.
 ```r
 DCtshouseJan2008sm_1<-decompose(tshouseJan2008sm_1)
