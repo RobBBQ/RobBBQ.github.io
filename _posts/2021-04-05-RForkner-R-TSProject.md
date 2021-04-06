@@ -8,15 +8,15 @@ excerpt: "Data Science, Messy Data, Data Analytics"
 mathjax: "true"
 ---
 
-## Overview
-### A home owner has become more aware of their power usage and has decided to track their consumption using 3 power meters in their house.  These meters take a measurement every minute.  By analyzing their power usage, the owner wants to try to predict their consumption in the futute.
+### Overview
+## A home owner has become more aware of their power usage and has decided to track their consumption using 3 power meters in their house.  These meters take a measurement every minute.  By analyzing their power usage, the owner wants to try to predict their consumption in the futute.
 
-# Project Goals
-### Use the sub-metered power consumption data to:
-	1. Create a time series of power consumtion for a given period.
-	2. Model the time series and predict future power consumption. 
+### Project Goals
+## Use the sub-metered power consumption data to:
+# 1. Create a time series of power consumtion for a given period.
+# 2. Model the time series and predict future power consumption. 
 
-### Step 1. Install Modules and Libraries
+## Step 1. Install Modules and Libraries
 
 ```r
 #' Install tidyverse from CRAN
