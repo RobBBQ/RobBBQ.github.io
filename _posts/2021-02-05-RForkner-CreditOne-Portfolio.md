@@ -1,5 +1,5 @@
 ---
-title: "Project 1 - Customer Credit"
+title: "Project 1 - Customer Credit Analysis in Python"
 date: 2021-02-05
 tags: [data analytics, data science, classification]
 header:
