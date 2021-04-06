@@ -40,6 +40,7 @@ import seaborn as sns
 import missingno as msno
 
 #For Log Display:
+import lasio
 from mpl_toolkits.mplot3d import Axes3D
 
 #SKLearn Stuff
@@ -56,17 +57,14 @@ from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import cross_val_score
 ```
-
+### Load Data.  Well data usually comes in .las files.  This can be read by Python using lasio. 
 ```python
-#Load Data. 
-data = pd.read_csv('train.csv', sep=';')
+#For reading .las files:
+las = lasio.read("15-9-19_SR_COMP.LAS")
 #Rename columns for log names
 data.rename(columns={"CALI":"Caliper","RSHA":"Res (S)","RMED":"Res (M)","RDEP":"Res (Dp)","RHOB":"Density (rhob)", "GR":"GR(raw)","ROP":"ROP", "DTS":"Sonic (ShSl)","DCAL":"Diff. Cal.","DRHO":"Density (corr)","RMIC":"Res (Mic)","ROPA":"ROP (avg)","RXO":"Res (flu)","FORCE_2020_LITHOFACIES_LITHOLOGY":"LITHOLOGY","FORCE_2020_LITHOFACIES_CONFIDENCE":"LITHOLOGY (conf)"}, inplace=True)
 data.head()
 ```
-
-
-
 
 <div>
 <style scoped>
@@ -235,5 +233,32 @@ data.head()
 <p>5 rows × 29 columns</p>
 </div>
 
-
+### Now that we have the data imported we want to be able to display it in a vertical format so that we can compare to physical core description
+```python
+#Now that we have created a dataframe, we can now create a plot of the well.
+fig = plt.subplots(figsize=(7,10))
+##Set up the plot axes
+ax1 = plt.subplot2grid((1,7), (0,0), rowspan=1, colspan = 1) 
+ax2 = plt.subplot2grid((1,7), (0,1), rowspan=1, colspan = 1)
+ax3 = plt.subplot2grid((1,7), (0,2), rowspan=1, colspan = 1)
+ax4 = plt.subplot2grid((1,7), (0,3), rowspan=1, colspan = 1)
+ax5 = plt.subplot2grid((1,7), (0,4), rowspan=1, colspan = 1)
+ax6 = plt.subplot2grid((1,7), (0,5), rowspan=1, colspan = 1)
+ax7 = plt.subplot2grid((1,7), (0,6), rowspan=1, colspan = 1)
+columns = well_nan.columns
+axes = [ax1, ax2, ax3, ax4, ax5, ax6, ax7]
+for i, ax in enumerate(axes):
+    ax.plot(well_nan.iloc[:,i], well_nan.index, lw=0)
+    ax.set_ylim(5000, 0)
+    ax.set_xlim(0, 1)
+    ax.set_title(columns[i])
+    ax.set_facecolor('whitesmoke')
+    ax.fill_betweenx(well_nan.index, 0, well_nan.iloc[:,i], facecolor='red')
+    ## Remove tick labels from each subplot
+    if i > 0:
+        plt.setp(ax.get_yticklabels(), visible = False)
+    plt.setp(ax.get_xticklabels(), visible = False)
+ax1.set_ylabel('Depth', fontsize=14)
+plt.subplots_adjust(wspace=0)
+plt.show()
 
