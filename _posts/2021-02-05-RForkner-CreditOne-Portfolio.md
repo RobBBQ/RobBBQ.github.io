@@ -451,18 +451,13 @@ plt.show();
 
 
 
-## All three regression analyses returned very poor results with regards to accuracy!  The errors are very large and we'd like to see the predictions vs. ground truth plots be a bit more linear.  What should we do now?  Maybe instead of a linear model a classification model will work better.
+### All three regression analyses returned pretty shaky results with regards to accuracy!  The errors are very large and we'd like to see the predictions vs. ground truth plots be a bit more linear.  What should we do now?  Maybe instead of a linear model isn't the best way to try to make predictions in this case.  Instead, maybe a classification model would work better for us.
 
 
 
-### Since we're gonig to try classification analyses, we need to arrange the customer credit limit (LIMIT_BAL) into classified bins.  We'll look at the distribution of the credit limit data to help guide the binning. just so we aren't making random guesses at how bins should be placed:
-```python
-#Data Visualization, Plot Histograms
-sns.distplot(Credit_Clean['LIMIT_BAL'])
-```
-![](/images/Project1images/RForkner_Credit_One_Portfolio_78_2.png)
+### In order to try classification analyses, we need to arrange the customer credit limit (LIMIT_BAL) into  bins.  These bins will then effectively be the 'answer' that the model algorithm is going to try to produce.  
 
-
+### In order to create bins that represent our credit limit (LIMIT_BAL) data, we'll look at the distribution of the credit limit data to help guide the binning. This is to make sure that we aren't making random guesses at how bins should be placed:
 ```python
 #distribution of data
 Credit_Clean['LIMIT_BAL'].describe(percentiles=[0, 1/3, 2/3, 1])
@@ -478,7 +473,11 @@ Credit_Clean['LIMIT_BAL'].describe(percentiles=[0, 1/3, 2/3, 1])
     100%     1000000.000000
     max      1000000.000000
     Name: LIMIT_BAL, dtype: float64
-
+```python
+#Data Visualization, Plot Histograms
+sns.distplot(Credit_Clean['LIMIT_BAL'])
+```
+![](/images/Project1images/RForkner_Credit_One_Portfolio_78_2.png)
 
 
 ### So, 2/3 of the customers have credit limits under $200K, but the maximum credit limit allowed is $1million, we will split the data into no more than 5 bins.
@@ -489,10 +488,6 @@ Credit_Clean['LIMIT_BAL'].describe(percentiles=[0, 1/3, 2/3, 1])
 Credit_Clean['LIMIT_BAL']  = pd.cut(Credit_Clean['LIMIT_BAL'], bins=4, labels=False)
 Credit_Clean['LIMIT_BAL'].value_counts()
 ```
-
-
-
-
     0    23283
     1     6511
     2      200
@@ -501,142 +496,13 @@ Credit_Clean['LIMIT_BAL'].value_counts()
 
 
 
-#### Now re-run the analysis with random forest classifier.
-
-
-```python
-#re-order columns to put desired dependent variable last
-column_names = ["ID", "SEX", "MARRIAGE", "AGE","EDUCATION","default payment next month","LIMIT_BAL","PAY_0","PAY_2","PAY_3","PAY_4","PAY_5","PAY_6","BILL_AMT1","BILL_AMT2","BILL_AMT3","BILL_AMT4","BILL_AMT5","BILL_AMT6","PAY_AMT1","PAY_AMT2","PAY_AMT3","PAY_AMT4","PAY_AMT5","PAY_AMT6"]
-Credit_Clean = Credit_Clean.reindex(columns=column_names)
-#print(Credit_Clean)
-```
-
-
-```python
-#features, setting independent variables; removed ID as it was skewing the dataset
-X = Credit_Clean.iloc[:,1:6]
-print('Summary of feature sample')
-X.head()
-```
-
-    Summary of feature sample
-
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>SEX</th>
-      <th>MARRIAGE</th>
-      <th>AGE</th>
-      <th>EDUCATION</th>
-      <th>default payment next month</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>1</td>
-      <td>24</td>
-      <td>3</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0</td>
-      <td>2</td>
-      <td>26</td>
-      <td>3</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0</td>
-      <td>2</td>
-      <td>34</td>
-      <td>3</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0</td>
-      <td>1</td>
-      <td>37</td>
-      <td>3</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1</td>
-      <td>1</td>
-      <td>57</td>
-      <td>3</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-
-```python
-#Setting Dependent Variable
-y = Credit_Clean['LIMIT_BAL']
-y.head()
-```
-
-
-
-
-    0    0
-    1    0
-    2    0
-    3    0
-    4    0
-    Name: LIMIT_BAL, dtype: int64
-
-
-
-
-```python
-#Train/Test Split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .25, random_state = 123)
-```
-
-
+#### Now we'll re-run the analysis with Random Forest Classifier.  This is a machine learning algorithm that uses a large number of random decision trees that eventually operate as a group. While each decision tree generates a prediction, the group of trees that generates the strongest prediction is taken as the most accurate model.  This result is then compared to the test data to determine accuracy:
 ```python
 #Modeling (Classification)
 algo = RandomForestClassifier(n_estimators=100)
 model = algo.fit(X_train,y_train)
-```
-
-
-```python
 #Predictions
 preds = model.predict(X_test)
-```
-
-
-```python
 print(classification_report(y_test, preds))
 ```
 
@@ -651,52 +517,19 @@ print(classification_report(y_test, preds))
        macro avg       0.30      0.26      0.25      7500
     weighted avg       0.71      0.78      0.71      7500
 
-
-
-    C:\Users\rob\anaconda3\envs\Data_Analytics\lib\site-packages\sklearn\metrics\_classification.py:1268: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-      _warn_prf(average, modifier, msg_start, len(result))
-
-
-
-```python
-cf=confusion_matrix(y_test, preds)
-print(cf)
-```
-
-    [[5704  170    0    0]
-     [1442  126    0    0]
-     [  51    6    0    0]
-     [   1    0    0    0]]
-
-
-
 ```python
 print("Accuracy:",metrics.accuracy_score(y_test, preds))
 ```
-
-    Accuracy: 0.7773333333333333
-
-
-### In this case using binning and classification modeling we've been able to arrive at a better model for predicting credit limit among customers.  The model is about 78% accurate and weighs Age and Education as the most important variables in determining credit limit.
+### Accuracy: 0.7773
 
 
-```python
-feature_names=X.columns
-print(feature_names)
-```
-
-    Index(['SEX', 'MARRIAGE', 'AGE', 'EDUCATION', 'default payment next month'], dtype='object')
-
-
+### In this case using binning and classification modeling we've been able to arrive at a better model for predicting credit limit among customers.  The model is about 78% accurate and weighs Age and Education as the most important variables in determining credit limit:
 
 ```python
 #importance of variables
 feature_imp = pd.Series(algo.feature_importances_,index=feature_names).sort_values(ascending=False)
 feature_imp
 ```
-
-
-
 
     AGE                           0.625595
     EDUCATION                     0.235429
