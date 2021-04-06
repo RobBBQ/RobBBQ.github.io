@@ -1,6 +1,6 @@
 ---
 title: "Project 3 - Rock Typing and Subsurface Mapping"
-date: 2021-06-06
+date: 2021-01-01
 tags: [data analytics, data science, classification]
 header:
 image: "/images/perceptron/percept.jpg"
