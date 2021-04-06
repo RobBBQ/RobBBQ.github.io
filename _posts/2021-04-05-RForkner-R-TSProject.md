@@ -52,7 +52,7 @@ CombinedDF <- bind_rows(yr_2007SELECT, yr_2008SELECT, yr_2009SELECT)
 CombinedDFT <-cbind(CombinedDF,paste(CombinedDF$Date,CombinedDF$Time), stringsAsFactors=FALSE)
 ```
 ## Here's an example of the combined dataset.  1,569,894 entries in 6 columns!!!  That's power data from 2006-2010 taken every minute!
-# Image of Combined DFT
+<img src="{{ site.url }}{{ site.baseurl }}//images/Combined DFT.jpg" alt="linearly separable data"> 
 ### Step 3. We'll now use an R fucntion called 'lubridate' to create "year", "quarter", "month", "week", "day", "hour", and "minute" attributes
 ```r
 CombinedDFT$year <- year(CombinedDFT$DateTime)
