@@ -265,7 +265,7 @@ plt.show()
 
 ### Before we plot logs, we want to know which petrophysical measurements will discriminate anhydrite most effciently.  
 ![](/images/AnhydriteImages/Elan_1.jpg)
-### In this case tombined logs that are most effective for descrimination are neutron density, resistivity (deep), sonic (C&S), and neutron porosity
+### In this case the combined logs that are most effective for descrimination are neutron density, resistivity (deep), sonic (C&S), and neutron porosity
 
 
 
