@@ -328,6 +328,33 @@ plt.show()
 
 ![](images/Project1images/RForkner_Credit_One_Portfolio_34_0.png)
 
+
+### In order to set up the analysis, we'll re-arrange the variables in the dataset so that the variable we're modeling for, the credit limit (LIMIT_BAL) is last in the dataframe.  We'll then designate which data are used to the model the resulting credit limit.
+
+
+```python
+#re-order columns to put desired dependent variable last
+column_names = ["ID", "SEX", "MARRIAGE", "AGE","EDUCATION","default payment next month","PAY_0","PAY_2","PAY_3","PAY_4","PAY_5","PAY_6","BILL_AMT1","BILL_AMT2","BILL_AMT3","BILL_AMT4","BILL_AMT5","BILL_AMT6","PAY_AMT1","PAY_AMT2","PAY_AMT3","PAY_AMT4","PAY_AMT5","PAY_AMT6", "LIMIT_BAL"]
+Credit_Clean = Credit_Clean.reindex(columns=column_names)
+
+# Setting the independent variables
+X = Credit_Clean.iloc[:,1:23]
+print('Summary of feature sample')
+X.head()
+
+#Setting Dependent Variable
+y = Credit_Clean['LIMIT_BAL']
+y.head()
+    0     20000
+    1    120000
+    2     90000
+    3     50000
+    4     50000
+    Name: LIMIT_BAL, dtype: int64
+```
+
+
+
 ```python
 #Basic Correlation Matrix
 #corrMat = Credit_Clean.corr()
@@ -337,223 +364,6 @@ plt.show()
 ![](images/Project1images/RForkner_Credit_One_Portfolio_Corr.png)
 
 #### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history.
-
-
-```python
-#Pandas Profiling
-#pandas_profiling.ProfileReport(Credit_Clean)
-```
-
-### In order to set up the analysis, we'll re-arrange the variables in the dataset so that the variable we're modeling for, the credit limit (LIMIT_BAL) is last in the dataframe.  We'll then designate which data are used to the model the resulting credit limit.
-
-
-```python
-#re-order columns to put desired dependent variable last
-column_names = ["ID", "SEX", "MARRIAGE", "AGE","EDUCATION","default payment next month","PAY_0","PAY_2","PAY_3","PAY_4","PAY_5","PAY_6","BILL_AMT1","BILL_AMT2","BILL_AMT3","BILL_AMT4","BILL_AMT5","BILL_AMT6","PAY_AMT1","PAY_AMT2","PAY_AMT3","PAY_AMT4","PAY_AMT5","PAY_AMT6", "LIMIT_BAL"]
-Credit_Clean = Credit_Clean.reindex(columns=column_names)
-#print(Credit_Clean)
-```
-
-
-```python
-#features, setting independent variables
-X = Credit_Clean.iloc[:,1:23]
-print('Summary of feature sample')
-X.head()
-```
-
-    Summary of feature sample
-
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>SEX</th>
-      <th>MARRIAGE</th>
-      <th>AGE</th>
-      <th>EDUCATION</th>
-      <th>default payment next month</th>
-      <th>PAY_0</th>
-      <th>PAY_2</th>
-      <th>PAY_3</th>
-      <th>PAY_4</th>
-      <th>PAY_5</th>
-      <th>...</th>
-      <th>BILL_AMT2</th>
-      <th>BILL_AMT3</th>
-      <th>BILL_AMT4</th>
-      <th>BILL_AMT5</th>
-      <th>BILL_AMT6</th>
-      <th>PAY_AMT1</th>
-      <th>PAY_AMT2</th>
-      <th>PAY_AMT3</th>
-      <th>PAY_AMT4</th>
-      <th>PAY_AMT5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>1</td>
-      <td>24</td>
-      <td>3</td>
-      <td>0</td>
-      <td>2</td>
-      <td>2</td>
-      <td>-1</td>
-      <td>-1</td>
-      <td>-2</td>
-      <td>...</td>
-      <td>3102</td>
-      <td>689</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>689</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0</td>
-      <td>2</td>
-      <td>26</td>
-      <td>3</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>2</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>1725</td>
-      <td>2682</td>
-      <td>3272</td>
-      <td>3455</td>
-      <td>3261</td>
-      <td>0</td>
-      <td>1000</td>
-      <td>1000</td>
-      <td>1000</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0</td>
-      <td>2</td>
-      <td>34</td>
-      <td>3</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>14027</td>
-      <td>13559</td>
-      <td>14331</td>
-      <td>14948</td>
-      <td>15549</td>
-      <td>1518</td>
-      <td>1500</td>
-      <td>1000</td>
-      <td>1000</td>
-      <td>1000</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0</td>
-      <td>1</td>
-      <td>37</td>
-      <td>3</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>48233</td>
-      <td>49291</td>
-      <td>28314</td>
-      <td>28959</td>
-      <td>29547</td>
-      <td>2000</td>
-      <td>2019</td>
-      <td>1200</td>
-      <td>1100</td>
-      <td>1069</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1</td>
-      <td>1</td>
-      <td>57</td>
-      <td>3</td>
-      <td>1</td>
-      <td>-1</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>5670</td>
-      <td>35835</td>
-      <td>20940</td>
-      <td>19146</td>
-      <td>19131</td>
-      <td>2000</td>
-      <td>36681</td>
-      <td>10000</td>
-      <td>9000</td>
-      <td>689</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 22 columns</p>
-</div>
-
-
-
-
-```python
-#Setting Dependent Variable
-y = Credit_Clean['LIMIT_BAL']
-y.head()
-```
-
-
-
-
-    0     20000
-    1    120000
-    2     90000
-    3     50000
-    4     50000
-    Name: LIMIT_BAL, dtype: int64
-
 
 
 ### To build and assess both models recursively, we create an empty list to store the results and another to hold the name of each algorithm so we can easily print out the results and keep them separated.  In this case, we'll use Random Forest Regression, Linear Regression, and Support Vector Regression to examine the relationship between the data and predicting customer credit limit.
