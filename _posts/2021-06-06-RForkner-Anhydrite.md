@@ -258,12 +258,10 @@ for i, ax in enumerate(axes):
         plt.setp(ax.get_yticklabels(), visible = False)
     plt.setp(ax.get_xticklabels(), visible = False)
 ax1.set_ylabel('Depth', fontsize=14)
-plt.subplots_adjust(wspace=0)
-plt.show()
 ```
 
 
-### Before we plot logs, we want to know which petrophysical measurements will discriminate anhydrite most effciently.  
+### However, before we plot all the logs, we want to know which petrophysical measurements will discriminate anhydrite most effciently.  
 ![](/images/AnhydriteImages/Elan_1.jpg)
 ### In this case the combined logs that are most effective for descrimination are neutron density, resistivity (deep), sonic (C&S), and neutron porosity
 
@@ -288,4 +286,23 @@ g.add_legend()
 
 ### Now we have to iterate this process by physically cross-checking the data with the core to make sure what is being predicted is actually there:
 ![](/images/AnhydriteImages/Prediction_1.jpg)
+
+```python
+#Cross apply definitions to all lithologies. 
+## Determine number of rows
+nrows = int(math.ceil(len(grouped)/4.))
+## Group our data
+grouped_lith = data.groupby('LITH')
+```
+
+
+### Once we are satisfied that the classification model is performing well, we can visualize the end-members we've defined in TechLog:
+![](/images/AnhydriteImages/Property_Response_Space.jpg)
+### This shows that we have very little property crossover for our defined petropysical responses that are calibrated to physical core description.
+
+
+### The next step is to export the model to data from surrounding wells.  Where core is available, we can perform another cross-check to ensure the deployment is accurate before we deploy the model to all the wells in the field:
+![](/images/AnhydriteImages/Prediction_2.jpg)
+
+
 
