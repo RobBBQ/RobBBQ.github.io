@@ -233,7 +233,7 @@ data.head()
 <p>5 rows × 29 columns</p>
 </div>
 
-### Now that we have the data imported we want to be able to display it in a vertical format so that we can compare to physical core description
+### Now that we have the data imported we want to be able to display it in a vertical format so that we can compare to physical core description:
 ```python
 fig = plt.subplots(figsize=(7,10))
 ##Set up the plot axes
