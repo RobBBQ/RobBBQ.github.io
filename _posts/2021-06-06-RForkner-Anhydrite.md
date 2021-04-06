@@ -306,3 +306,11 @@ grouped_lith = data.groupby('LITH')
 
 
 
+### Once we are satisfied with teh accuracy of the model in other wells, we deploy the model to all wells in the field and create cross-sections:
+![](/images/AnhydriteImages/XC.jpg)
+
+
+### We then load the model data into subsurface mapping software (Petrel) and make maps of predicted anhydrite occurrence at defined stratigraphic intervals:
+![](/images/AnhydriteImages/Map.jpg)
+
+
