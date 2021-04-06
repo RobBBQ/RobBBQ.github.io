@@ -1,6 +1,6 @@
 ---
 title: "Project 2 - Power Usage"
-date: 2021-04-05
+date: 2021-02-02
 tags: [data analytics, data science, time series, R]
 header:
 image: "/images/perceptron/percept.jpg"
