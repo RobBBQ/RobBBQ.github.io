@@ -13,8 +13,8 @@ mathjax: "true"
 
 # Project Goals
 ### Use the demographic data to determine:
-	1. How much credit should customers be allowed
-	2. Should a potential customer be approved for credit?
+####1. How much credit should customers be allowed
+####2. Should a potential customer be approved for credit?
 
 ### Step 1. Install Modules and Libraries
 
