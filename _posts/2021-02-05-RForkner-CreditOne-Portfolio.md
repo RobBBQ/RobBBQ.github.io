@@ -336,8 +336,7 @@ plt.show()
 
 <img src="images/Project1images/RForkner_Credit_One_Portfolio_Corr.png">
 
-#### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history (green box).
-![Heatmap%20Corr.png](attachment:Heatmap%20Corr.png)
+#### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history.
 
 
 ```python
