@@ -1,5 +1,5 @@
 ---
-title: "Project 1 Post"
+title: "Project 1 - Customer Credit"
 date: 2021-02-05
 tags: [data science, messy data, data analytics]
 header:
