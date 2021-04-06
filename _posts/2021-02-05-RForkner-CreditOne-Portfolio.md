@@ -4,7 +4,7 @@ date: 2021-02-05
 tags: [data analytics, data science, classification]
 header:
 image: "/images/perceptron/percept.jpg"
-excerpt: "Data Analytics, Classification Modeling"
+excerpt: "Regression and Classification Modeling in Python"
 mathjax: "true"
 ---
 
