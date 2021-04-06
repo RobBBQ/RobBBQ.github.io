@@ -12,8 +12,8 @@ mathjax: "true"
 ## A home owner has become more aware of their power usage and has decided to track their consumption using 3 power meters in their house.  These meters take a measurement every minute.  By analyzing their power usage, the owner wants to try to predict their consumption in the futute.
 # Project Goals
 ## Use the sub-metered power consumption data to:
-  ### 1. Create a time series of power consumtion for a given period.
-  ### 2. Model the time series and predict future power consumption. 
+  ### - Create a time series of power consumtion for a given period.
+  ### - Model the time series and predict future power consumption. 
 ## Step 1. Install Modules and Libraries.  These libraries will allow for data loading, examination, analysis, visualization, and forecasting:
 ```r
 install.packages("tidyverse")
@@ -77,7 +77,7 @@ plot_ly(house9Jan2008, x = ~house9Jan2008$DateTime, y = ~house9Jan2008$Sub_meter
 ### Here's a plot of power usage in the house on January 9, 2008:
 # PLOT 9 Jan all power use
 
-### Since that uses power measurements taken every minute, we can probably coarsen the data sampling to every 10 minutes and still see the relevant oscillations in power usage
+### Step 5. Since that uses power measurements taken every minute, we can probably coarsen the data sampling to every 10 minutes and still see the relevant oscillations in power usage
 ```r
 house9Jan2008x10min <- filter(house9Jan2008, year == 2008 & month == 1 & day == 9 & (minute == 0 | minute == 10 | minute == 20 | minute == 30 | minute == 40 | minute == 50))
 #' Plot sub-meter 1, 2 and 3 with title, legend and labels - 10 Minute frequency
@@ -91,7 +91,7 @@ plot_ly(house9Jan2008x10min, x = ~house9Jan2008x10min$DateTime, y = ~house9Jan20
 ### Here's a plot of power usage in the house on January 9, 2008, with measurements taken every 10 minutes:
 # PLOT 9 Jan all power use 10 min
 
-### Now we'll prepare the data for Time Series Analysis.  In this case, to get enough of a sample for forecasting, we'll sample the whole month of January, 2008, with power measurements taken every hour.  We'll use the same code for each submeter.  We'll then plot each sub-meter's readings for the month:
+### Step 6. Now we'll prepare the data for Time Series Analysis.  In this case, to get enough of a sample for forecasting, we'll sample the whole month of January, 2008, with power measurements taken every hour.  We'll use the same code for each submeter.  We'll then plot each sub-meter's readings for the month:
 ```r
 houseJan2008 <- filter(CombinedDFT, year == 2008 & month == 1 & (minute == 0))
 houseJan2008$Date<-NULL
@@ -105,14 +105,14 @@ plot(tshouseJan2008sm_1)
 # PLOT sm1 kitchen
 # PLOT sm2 laundry
 # PLOT sm3 water heater and airco
-### In order to perform a forecast on the time series, we will decompose the time data into its component parts: the background trend, repeating seasonality and remaining noise.
+### Step 7. In order to perform a forecast on the time series, we will decompose the time data into its component parts: the background trend, repeating seasonality and remaining noise.
 ```r
 DCtshouseJan2008sm_1<-decompose(tshouseJan2008sm_1)
 autoplot(DCtshouseJan2008sm_1, main = "January, 2008 Sub-meter 1")
 ```
 ### Here's a plot of the time series decomposition from Sub-meter 1.  
 # PLOT sm1 decomp
-### Now we will create a time series linear models (tslm) for Jan 2008 for each sub-meter.  There are many models we can apply, but in this case we'll run a simple linear model for the trend and the seasonality.  We'll use these models in the forecast package to forecast usaage for the next day.
+### Step 8. Now we will create a time series linear models (tslm) for Jan 2008 for each sub-meter.  There are many models we can apply, but in this case we'll run a simple linear model for the trend and the seasonality.  We'll use these models in the forecast package to forecast usaage for the next day.
 ```r
 fitSM1 <- tslm(tshouseJan2008sm_1 ~ trend + season) 
 summary(fitSM1)
@@ -124,7 +124,7 @@ autoplot(forecastfitSM1, colour = 'green', xlab = "Time", ylab = "Watt Hours", m
 # PLOT sm2 laundry forecast
 # PLOT sm3 water heater and airco forecast
 ### Each forecast uses the trend and seasonlity to make a prediction of power usage for 24 hours in the future with 80 and 90% confidence bands based on the linear model. 
-### How will each forecast perform?  We'll need to compare teh result to future power usage to find out!
+### Step 9. How will each forecast perform?  We'll need to compare teh result to future power usage to find out!
 
 
 
