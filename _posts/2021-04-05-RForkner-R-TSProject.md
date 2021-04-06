@@ -78,7 +78,7 @@ plot_ly(house9Jan2008, x = ~house9Jan2008$DateTime, y = ~house9Jan2008$Sub_meter
          yaxis = list (title = "Power (watt-hours)"))
 ```
 
-![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan%209%20power%20consumption%20all.jpeg)
+![](RobBBQ.github.io/blob/master/images/Jan%209%20power%20consumption%20all.jpeg)
 
 ### Step 5. Since that uses power measurements taken every minute, we can probably coarsen the data sampling to every 10 minutes and still see the relevant oscillations in power usage
 ```r
