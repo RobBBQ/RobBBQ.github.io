@@ -64,3 +64,176 @@ data = pd.read_csv('train.csv', sep=';')
 data.rename(columns={"CALI":"Caliper","RSHA":"Res (S)","RMED":"Res (M)","RDEP":"Res (Dp)","RHOB":"Density (rhob)", "GR":"GR(raw)","ROP":"ROP", "DTS":"Sonic (ShSl)","DCAL":"Diff. Cal.","DRHO":"Density (corr)","RMIC":"Res (Mic)","ROPA":"ROP (avg)","RXO":"Res (flu)","FORCE_2020_LITHOFACIES_LITHOLOGY":"LITHOLOGY","FORCE_2020_LITHOFACIES_CONFIDENCE":"LITHOLOGY (conf)"}, inplace=True)
 data.head()
 ```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>WELL</th>
+      <th>DEPTH_MD</th>
+      <th>X_LOC</th>
+      <th>Y_LOC</th>
+      <th>Z_LOC</th>
+      <th>GROUP</th>
+      <th>FORMATION</th>
+      <th>Caliper</th>
+      <th>Res (S)</th>
+      <th>Res (M)</th>
+      <th>...</th>
+      <th>ROP</th>
+      <th>Sonic (ShSl)</th>
+      <th>Diff. Cal.</th>
+      <th>Density (corr)</th>
+      <th>MUDWEIGHT</th>
+      <th>Res (Mic)</th>
+      <th>ROP (avg)</th>
+      <th>Res (flu)</th>
+      <th>LITHOLOGY</th>
+      <th>LITHOLOGY (conf)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>15/9-13</td>
+      <td>494.528</td>
+      <td>437641.96875</td>
+      <td>6470972.5</td>
+      <td>-469.501831</td>
+      <td>NORDLAND GP.</td>
+      <td>NaN</td>
+      <td>19.480835</td>
+      <td>NaN</td>
+      <td>1.611410</td>
+      <td>...</td>
+      <td>34.636410</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-0.574928</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>65000</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>15/9-13</td>
+      <td>494.680</td>
+      <td>437641.96875</td>
+      <td>6470972.5</td>
+      <td>-469.653809</td>
+      <td>NORDLAND GP.</td>
+      <td>NaN</td>
+      <td>19.468800</td>
+      <td>NaN</td>
+      <td>1.618070</td>
+      <td>...</td>
+      <td>34.636410</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-0.570188</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>65000</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>15/9-13</td>
+      <td>494.832</td>
+      <td>437641.96875</td>
+      <td>6470972.5</td>
+      <td>-469.805786</td>
+      <td>NORDLAND GP.</td>
+      <td>NaN</td>
+      <td>19.468800</td>
+      <td>NaN</td>
+      <td>1.626459</td>
+      <td>...</td>
+      <td>34.779556</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-0.574245</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>65000</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>15/9-13</td>
+      <td>494.984</td>
+      <td>437641.96875</td>
+      <td>6470972.5</td>
+      <td>-469.957794</td>
+      <td>NORDLAND GP.</td>
+      <td>NaN</td>
+      <td>19.459282</td>
+      <td>NaN</td>
+      <td>1.621594</td>
+      <td>...</td>
+      <td>39.965164</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-0.586315</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>65000</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>15/9-13</td>
+      <td>495.136</td>
+      <td>437641.96875</td>
+      <td>6470972.5</td>
+      <td>-470.109772</td>
+      <td>NORDLAND GP.</td>
+      <td>NaN</td>
+      <td>19.453100</td>
+      <td>NaN</td>
+      <td>1.602679</td>
+      <td>...</td>
+      <td>57.483765</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-0.597914</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>65000</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 29 columns</p>
+</div>
+
+
+
