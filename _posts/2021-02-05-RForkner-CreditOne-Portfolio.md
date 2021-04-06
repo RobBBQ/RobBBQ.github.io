@@ -4,7 +4,7 @@ date: 2021-02-05
 tags: [data analytics, data science, classification]
 header:
 image: "/images/perceptron/percept.jpg"
-excerpt: "Data Analytics"
+excerpt: "Data Analytics, Classification Modeling"
 mathjax: "true"
 ---
 
@@ -65,16 +65,14 @@ df.to_csv('credit_one.csv',index=False)
 ```
 
 ### Issues with data:
-#### 1. Not all data are numerical, and even numerical columns read as objects
+#### 1. Not all data are numeric, and even some numerical columns read as objects.  This is a problem because the analyses we'll want to perform require teh data to be numbers!
 #### 2. Repeated rows
 #### 3. Repeated headers
-#### 4. Classification analyses will require discretization
 
 ### Strategies for addressing concerns:
-#### 1. Remove all non-numeric rows.  This was done manually after identifying them in excel as an extra set of headers.  However, even after their removal, in order for Jupyter to read the column numerical, the dataset needs to be saved as a csv file and re-imported.  Otherwise conversions must be coded manually per column/variable
+#### 1. Discretize variables as required- this means either encoding a data object as a number, or creating 'dummy' columns to indicate whether an object either represents or does not represent a category using either 0 or 1.
 #### 2. Delete repeated rows
 #### 3. Delete extra headers
-#### 4. Discretize variables as required.
 
 
 ```python
