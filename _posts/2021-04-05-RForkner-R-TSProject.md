@@ -4,7 +4,7 @@ date: 2021-04-05
 tags: [data analytics, data science, time series, R]
 header:
 image: "/images/perceptron/percept.jpg"
-excerpt: "Time Series Analysis using R"
+excerpt: "Time Series Analysis using R in RStudio"
 mathjax: "true"
 ---
 
