@@ -110,12 +110,12 @@ plot(tshouseJan2008sm_1)
 ![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan%202008%20sm1%20kitchen.jpeg)
 ![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan2008%20sm2%20laundry.jpeg)
 ![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan2008%20sm3%20WHAC.jpeg)
-### Step 7. In order to perform a forecast on the time series, we will decompose the time data into its component parts: the background trend, repeating seasonality and remaining noise.
+### Step 7. In order to perform a forecast on the time series, we will decompose the time data into its component parts: the background trend, repeating seasonality and remaining noise.  This is because when we make a forecast, the model we use for the forecast will focus on the trend and the seasonality in the data.
 ```r
 DCtshouseJan2008sm_1<-decompose(tshouseJan2008sm_1)
 autoplot(DCtshouseJan2008sm_1, main = "January, 2008 Sub-meter 1")
 ```
-### Here's a plot of the time series decomposition from Sub-meter 1. 
+### Here's a plot of the time series decomposition: 
 
 ![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan%202008%20sm1%20kitchen%20decomp.jpeg)
 
