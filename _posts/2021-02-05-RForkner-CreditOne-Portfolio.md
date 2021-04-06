@@ -382,9 +382,7 @@ for name, model in algosClass:
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .25, random_state = 123)
 ```
 
-### Here's the Random Forest Regression:
-
-
+### Here's the Random Forest Regression Model:
 ```python
 #Regression Modeling
 algo = RandomForestRegressor()
@@ -396,9 +394,10 @@ rmse = sqrt(mean_squared_error(y_test, predictions))
 print('R Squared: %.3f' % predRsquared)
 print('RMSE: %.3f' % rmse)
 ```
-### Random Forest Regression R Squared: 0.465
-### Random Forest Regression Root Mean Square Error (RMSE): $94050.67
+#### Random Forest Regression R Squared: 0.465
+#### Random Forest Regression Root Mean Square Error (RMSE): $94050.67
 
+### Now we'll plot the result of the model:
 ```python
 #plotting results
 plt.scatter(y_test, predictions, color=['blue'], alpha = 0.5)
@@ -410,8 +409,7 @@ plt.show();
 ![](/images/Project1images/RForkner_Credit_One_Portfolio_57_0.png)
 
 
-### Here's the Linear Regression
-
+### Here's the Linear Regression Model:
 ```python
 #Regression Modeling
 algo = LinearRegression()
@@ -423,12 +421,10 @@ rmse = sqrt(mean_squared_error(y_test, predictions))
 print('R Squared: %.3f' % predRsquared)
 print('RMSE: %.3f' % rmse)
 ```
+#### Linear Regression R Squared: 0.336
+#### Linear Regression Root Mean Square Error (RMSE): $104731.68
 
-### Linear Regression R Squared: 0.336
-### Linear Regression Root Mean Square Error (RMSE): $104731.68
-
-
-
+### Now we'll plot the result of the model:
 ```python
 #plotting results
 plt.scatter(y_test, predictions, color=['green'], alpha = 0.5)
@@ -436,56 +432,14 @@ plt.xlabel('Ground Truth')
 plt.ylabel('Predictions')
 plt.show();
 ```
-
-
 ![](/images/Project1images/RForkner_Credit_One_Portfolio_66_0.png)
 
-### Support Vector Regression
-#### Similar to a linear regression except allowing for a wider boundary of error around the regression line.
 
-
+### Here's the Support Vector Regression Model:
 ```python
 #Regression Modeling
 algo = SVR()
 model = algo.fit(X_train,y_train)
-```
-
-
-```python
-#Predictions
-preds = model.predict(X_test)
-```
-
-
-```python
-#R squared value
-print(r2_score(y_test, preds))
-```
-
-    -0.03583003584384947
-
-
-
-```python
-#RMSE root mean square error can't be calculated in one go, so we calculate mse then take the square root
-mse = mean_squared_error(y_test, preds)
-```
-
-
-```python
-rmse = math.sqrt(mse)
-```
-
-
-```python
-print((rmse))
-```
-
-    130824.5884282775
-
-
-
-```python
 #Make Predictions
 predictions = model.predict(X_test)
 predRsquared = r2_score(y_test,predictions)
@@ -493,12 +447,10 @@ rmse = sqrt(mean_squared_error(y_test, predictions))
 print('R Squared: %.3f' % predRsquared)
 print('RMSE: %.3f' % rmse)
 ```
+#### Linear Regression R Squared: -0.036
+#### Linear Regression Root Mean Square Error (RMSE): $130824.59
 
-    R Squared: -0.036
-    RMSE: 130824.588
-
-
-
+### Now we'll plot the result of the model:
 ```python
 #plotting results
 plt.scatter(y_test, predictions, color=['red'], alpha = 0.5)
@@ -506,68 +458,25 @@ plt.xlabel('Ground Truth')
 plt.ylabel('Predictions')
 plt.show();
 ```
+![](/images/Project1images/RForkner_Credit_One_Portfolio_75_0.png)
 
 
-![png](RForkner_Credit_One_Portfolio_files/RForkner_Credit_One_Portfolio_75_0.png)
-
-
-
-```python
-for i in range(len(names)):
-    print(names[i],results[i].mean())
-```
-
-    Random Forest Regressor 0.45994203673169737
-    Linear Regression 0.3262248324035236
-    Support Vector Regression -0.050522201381185905
-
-
-### All three regression analyses returned very poor results with regards to accuracy!  Perhaps we should try classification analyses instead!
-
-```python
-#Basic Correlation Matrix
-#corrMat = Credit_Clean.corr()
-#print(corrMat)
-```
-
-![](images/Project1images/RForkner_Credit_One_Portfolio_Corr.png)
-
-#### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history.
-
-
-### Since we're gonig to try classification analyses the dependent variable (credit limit) needs to be discretized or binned.  We'll look at the distribution of the credit limit data to help guide the binning:
+## All three regression analyses returned very poor results with regards to accuracy!  The errors are very large and we'd like to see the predictions vs. ground truth plots be a bit more linear.  What should we do now?  Maybe instead of a linear model a classification model will work better.
 
 
 
+### Since we're gonig to try classification analyses, we need to arrange the customer credit limit (LIMIT_BAL) into classified bins.  We'll look at the distribution of the credit limit data to help guide the binning. just so we aren't making random guesses at how bins should be placed:
 ```python
 #Data Visualization, Plot Histograms
 sns.distplot(Credit_Clean['LIMIT_BAL'])
 ```
-
-    C:\Users\rob\anaconda3\envs\Data_Analytics\lib\site-packages\seaborn\distributions.py:2551: FutureWarning: `distplot` is a deprecated function and will be removed in a future version. Please adapt your code to use either `displot` (a figure-level function with similar flexibility) or `histplot` (an axes-level function for histograms).
-      warnings.warn(msg, FutureWarning)
-
-
-
-
-
-    <AxesSubplot:xlabel='LIMIT_BAL', ylabel='Density'>
-
-
-
-
-![png](RForkner_Credit_One_Portfolio_files/RForkner_Credit_One_Portfolio_78_2.png)
-
+![](/images/Project1images/RForkner_Credit_One_Portfolio_78_2.png)
 
 
 ```python
 #distribution of data
 Credit_Clean['LIMIT_BAL'].describe(percentiles=[0, 1/3, 2/3, 1])
 ```
-
-
-
-
     count      30000.000000
     mean      167484.322667
     std       129747.661567
@@ -582,7 +491,7 @@ Credit_Clean['LIMIT_BAL'].describe(percentiles=[0, 1/3, 2/3, 1])
 
 
 
-### Since 2/3 of the customers have credit limits under 200K, but the maximum credit limit allowed is 1million, we will split the data into no more than 5 bins.
+### So, 2/3 of the customers have credit limits under $200K, but the maximum credit limit allowed is $1million, we will split the data into no more than 5 bins.
 
 
 ```python
@@ -1142,5 +1051,11 @@ feature_imp
 
 
 ```python
-
+#Basic Correlation Matrix
+#corrMat = Credit_Clean.corr()
+#print(corrMat)
 ```
+
+![](/images/Project1images/RForkner_Credit_One_Portfolio_Corr.png)
+
+#### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history.
