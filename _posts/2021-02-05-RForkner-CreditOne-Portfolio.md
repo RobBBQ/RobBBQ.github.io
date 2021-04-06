@@ -64,64 +64,6 @@ df = pd.read_sql('SELECT * FROM credit', con=db_connection)
 df.to_csv('credit_one.csv',index=False)
 ```
 
-### Issues with data:
-#### 1. Not all data are numeric, and even some numerical columns read as objects.  This is a problem because the analyses we'll want to perform require teh data to be numbers!
-#### 2. Repeated rows
-#### 3. Repeated headers
-
-### Strategies for addressing concerns:
-#### 1. Discretize variables as required- this means either encoding a data object as a number, or creating 'dummy' columns to indicate whether an object either represents or does not represent a category using either 0 or 1.
-#### 2. Delete repeated rows
-#### 3. Delete extra headers
-
-
-```python
-#rename csv file as df and skip row 1, which are labels in this case
-df=pd.read_csv('credit_one.csv',skiprows=[0])
-#drop duplicate rows
-df = df.drop_duplicates()
-#check for missing values
-print(df.isnull().sum())
-```
-
-    ID                            1
-    LIMIT_BAL                     0
-    SEX                           0
-    EDUCATION                     0
-    MARRIAGE                      0
-    AGE                           0
-    PAY_0                         0
-    PAY_2                         0
-    PAY_3                         0
-    PAY_4                         0
-    PAY_5                         0
-    PAY_6                         0
-    BILL_AMT1                     0
-    BILL_AMT2                     0
-    BILL_AMT3                     0
-    BILL_AMT4                     0
-    BILL_AMT5                     0
-    BILL_AMT6                     0
-    PAY_AMT1                      0
-    PAY_AMT2                      0
-    PAY_AMT3                      0
-    PAY_AMT4                      0
-    PAY_AMT5                      0
-    PAY_AMT6                      0
-    default payment next month    0
-    dtype: int64
-
-
-
-```python
-#rename dataframe to credit
-credit = df
-credit.head()
-```
-
-
-
-
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -291,7 +233,7 @@ credit.head()
 
 
 
-#### Now that we have the formatting done, we can see that the data include the following information:
+#### Now that we have the data importing done, we can see that the data include the following information:
 * LIMIT_BAL: Amount of the given credit (NT dollar): it includes both the individual consumer credit and his/her family (supplementary) credit.
 * SEX: male / female
 * EDUCATION: graduate school; university; high school; others).
@@ -302,8 +244,17 @@ credit.head()
 * PAY_AMT: Amount of previous payment (NT dollar). PAY_AMT1 = amount paid in September; PAY_AMT2 = amount paid in August; . . .; PAY_AMT6 = amount paid in April.
 * Default Payment Next Month: If the customer defaulted in October
 
-### Step 3. Now that the data are clean they are exported as a new .csv file and re-imported so that the values are all recognized as numeric.  Any remaining non-numeric data will be label encoded so that they can be recognized by the algorithms and included in the analyses.
+### Step 3. Now that the data are accounted for we need to tackle a few issues:
+#### 1. Not all data are numeric, and even some numerical columns read as objects.  This is a problem because the analyses we'll want to perform require teh data to be numbers!
+#### 2. Repeated rows
+#### 3. Repeated headers
 
+### Here's how we'll address these issues:
+#### 1. Discretize variables as required- this means either encoding a data object as a number, or creating 'dummy' columns to indicate whether an object either represents or does not represent a category using either 0 or 1.
+#### 2. Delete repeated rows
+#### 3. Delete extra headers
+
+### The first thing we'll do is export and re-open a new dataframe so that our changes to column headers are recognized and the associated data rows are understood as numeric:
 
 ```python
 #export cleaned df called 'credit' to CSV called 'Credit_Clean'
@@ -313,7 +264,7 @@ data = pd.read_csv('Credit_Clean.csv')
 Credit_Clean=data
 ```
 
-### Now we'll encode the data listed as objects  so thet they'll be recognized as numeric values:
+### Now we'll encode the remaining data listed as objects so thet they'll be recognized as numeric values:
 
 
 ```python
