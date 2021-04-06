@@ -326,7 +326,7 @@ plt.hist(Credit_Clean['LIMIT_BAL'], bins=10)
 plt.show()
 ```
 
-![](images/Project1images/RForkner_Credit_One_Portfolio_34_0.png)
+![](/images/Project1images/RForkner_Credit_One_Portfolio_34_0.png)
 
 
 ### In order to set up the analysis, we'll re-arrange the variables in the dataset so that the variable we're modeling for, the credit limit (LIMIT_BAL) is last in the dataframe.  We'll then designate which data are used to the model the resulting credit limit.
@@ -353,47 +353,19 @@ y.head()
     Name: LIMIT_BAL, dtype: int64
 ```
 
+### In order to determine whether we can define any relationship between our data and a customer's credit limit (LIMIT_BAL) we'll start by trying 3 different models:
+#### 1. Random Forest Regression - A method composed of multiple interations of random sampling through a dataset to arrive at the outcome.  This model then collects all the results at the end of the anaysis to compare to ground truth.
+#### 2. Linear Regression - Attempting to model the relationship between modeled and ground truth results by fitting a linear equation to the data.
+#### 3. Support Vector Regression - Similar to a linear regression except allowing for a wider boundary of error around the regression line.
 
-
-```python
-#Basic Correlation Matrix
-#corrMat = Credit_Clean.corr()
-#print(corrMat)
-```
-
-![](images/Project1images/RForkner_Credit_One_Portfolio_Corr.png)
-
-#### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history.
-
-
-### To build and assess both models recursively, we create an empty list to store the results and another to hold the name of each algorithm so we can easily print out the results and keep them separated.  In this case, we'll use Random Forest Regression, Linear Regression, and Support Vector Regression to examine the relationship between the data and predicting customer credit limit.
-
+##### In this case, since we're building 3 models and want assess them all at the same time, we'll create an empty list to store the results and another to hold the name of each algorithm so we can easily print out the results and keep them separated:
 
 ```python
 #Prepare regression algorithms
 algosClass = []
-```
-
-
-```python
-#To build and assess both models recursively, we create an empty list to store the results and another to hold the name of each algorithm so we can easily print out the results and keep them separated
 algosClass.append(('Random Forest Regressor',RandomForestRegressor()))
-```
-
-
-```python
-#To build and assess both models recursively, we create an empty list to store the results and another to hold the name of each algorithm so we can easily print out the results and keep them separated
 algosClass.append(('Linear Regression',LinearRegression()))
-```
-
-
-```python
-#To build and assess both models recursively, we create an empty list to store the results and another to hold the name of each algorithm so we can easily print out the results and keep them separated
 algosClass.append(('Support Vector Regression',SVR()))
-```
-
-
-```python
 #regression
 results = []
 names = []
@@ -403,58 +375,20 @@ for name, model in algosClass:
     results.append(result)
 ```
 
+### Now we'll split the dataset into a group for the algorithm to learn relationships on (training set) and a group for the algorithm to test it's results on (testing set):
 
 ```python
 #Train/Test Split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .25, random_state = 123)
 ```
 
-### Random Forest Regression
-#### A method composed of multiple interations of random sampling through a dataset to arrive at the outcome.  The model then aggregates the results at the end of the anaysis to compare to ground truth.
+### Here's the Random Forest Regression:
 
 
 ```python
 #Regression Modeling
 algo = RandomForestRegressor()
 model = algo.fit(X_train,y_train)
-```
-
-
-```python
-#Predictions
-preds = model.predict(X_test)
-```
-
-
-```python
-#R squared value
-print(r2_score(y_test, preds))
-```
-
-    0.46465528438750847
-
-
-
-```python
-#RMSE root mean square error can't be calculated in one go, so we calculate mse then take the square root
-mse = mean_squared_error(y_test, preds)
-```
-
-
-```python
-rmse = math.sqrt(mse)
-```
-
-
-```python
-print((rmse))
-```
-
-    94050.66857693906
-
-
-
-```python
 #Make Predictions
 predictions = model.predict(X_test)
 predRsquared = r2_score(y_test,predictions)
@@ -462,11 +396,8 @@ rmse = sqrt(mean_squared_error(y_test, predictions))
 print('R Squared: %.3f' % predRsquared)
 print('RMSE: %.3f' % rmse)
 ```
-
-    R Squared: 0.465
-    RMSE: 94050.669
-
-
+### Random Forest Regression R Squared: 0.465
+### Random Forest Regression Root Mean Square Error (RMSE): $94050.67
 
 ```python
 #plotting results
@@ -476,56 +407,15 @@ plt.ylabel('Predictions')
 plt.show();
 ```
 
+![](/images/Project1images/RForkner_Credit_One_Portfolio_57_0.png)
 
-![png](RForkner_Credit_One_Portfolio_files/RForkner_Credit_One_Portfolio_57_0.png)
 
-
-### Linear Regression
-#### Attempting to model the relationship between modeled and ground truth results by fitting a linear equation to the data.
-
+### Here's the Linear Regression
 
 ```python
 #Regression Modeling
 algo = LinearRegression()
 model = algo.fit(X_train,y_train)
-```
-
-
-```python
-#Predictions
-preds = model.predict(X_test)
-```
-
-
-```python
-#R squared value
-print(r2_score(y_test, preds))
-```
-
-    0.3361562778442996
-
-
-
-```python
-#RMSE root mean square error can't be calculated in one go, so we calculate mse then take the square root
-mse = mean_squared_error(y_test, preds)
-```
-
-
-```python
-rmse = math.sqrt(mse)
-```
-
-
-```python
-print((rmse))
-```
-
-    104731.67596963384
-
-
-
-```python
 #Make Predictions
 predictions = model.predict(X_test)
 predRsquared = r2_score(y_test,predictions)
@@ -534,8 +424,8 @@ print('R Squared: %.3f' % predRsquared)
 print('RMSE: %.3f' % rmse)
 ```
 
-    R Squared: 0.336
-    RMSE: 104731.676
+### Linear Regression R Squared: 0.336
+### Linear Regression Root Mean Square Error (RMSE): $104731.68
 
 
 
@@ -548,8 +438,7 @@ plt.show();
 ```
 
 
-![png](RForkner_Credit_One_Portfolio_files/RForkner_Credit_One_Portfolio_66_0.png)
-
+![](/images/Project1images/RForkner_Credit_One_Portfolio_66_0.png)
 
 ### Support Vector Regression
 #### Similar to a linear regression except allowing for a wider boundary of error around the regression line.
@@ -634,6 +523,17 @@ for i in range(len(names)):
 
 
 ### All three regression analyses returned very poor results with regards to accuracy!  Perhaps we should try classification analyses instead!
+
+```python
+#Basic Correlation Matrix
+#corrMat = Credit_Clean.corr()
+#print(corrMat)
+```
+
+![](images/Project1images/RForkner_Credit_One_Portfolio_Corr.png)
+
+#### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history.
+
 
 ### Since we're gonig to try classification analyses the dependent variable (credit limit) needs to be discretized or binned.  We'll look at the distribution of the credit limit data to help guide the binning:
 
