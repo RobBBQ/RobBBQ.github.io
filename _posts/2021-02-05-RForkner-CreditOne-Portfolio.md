@@ -16,7 +16,7 @@ mathjax: "true"
 #### 1. How much credit should customers be allowed
 #### 2. Should a potential customer be approved for credit?
 
-### Step 1. Install Modules and Libraries
+### Step 1. Install Modules and Libraries:
 
 
 ```python
@@ -51,7 +51,7 @@ from sklearn import tree
 from sklearn import metrics
 ```
 
-### Step 2. Download dataset with SQL connection
+### Step 2. Download dataset with MySQL and save:
 
 
 ```python
@@ -80,16 +80,8 @@ df.to_csv('credit_one.csv',index=False)
 ```python
 #rename csv file as df and skip row 1, which are labels in this case
 df=pd.read_csv('credit_one.csv',skiprows=[0])
-```
-
-
-```python
 #drop duplicate rows
 df = df.drop_duplicates()
-```
-
-
-```python
 #check for missing values
 print(df.isnull().sum())
 ```
@@ -126,10 +118,6 @@ print(df.isnull().sum())
 ```python
 #rename dataframe to credit
 credit = df
-```
-
-
-```python
 credit.head()
 ```
 
@@ -305,7 +293,7 @@ credit.head()
 
 
 
-#### The data include the following information:
+#### Now that we have the formatting done, we can see that the data include the following information:
 * LIMIT_BAL: Amount of the given credit (NT dollar): it includes both the individual consumer credit and his/her family (supplementary) credit.
 * SEX: male / female
 * EDUCATION: graduate school; university; high school; others).
@@ -316,329 +304,18 @@ credit.head()
 * PAY_AMT: Amount of previous payment (NT dollar). PAY_AMT1 = amount paid in September; PAY_AMT2 = amount paid in August; . . .; PAY_AMT6 = amount paid in April.
 * Default Payment Next Month: If the customer defaulted in October
 
-
-```python
-credit.describe()
-```
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>ID</th>
-      <th>LIMIT_BAL</th>
-      <th>SEX</th>
-      <th>EDUCATION</th>
-      <th>MARRIAGE</th>
-      <th>AGE</th>
-      <th>PAY_0</th>
-      <th>PAY_2</th>
-      <th>PAY_3</th>
-      <th>PAY_4</th>
-      <th>...</th>
-      <th>BILL_AMT4</th>
-      <th>BILL_AMT5</th>
-      <th>BILL_AMT6</th>
-      <th>PAY_AMT1</th>
-      <th>PAY_AMT2</th>
-      <th>PAY_AMT3</th>
-      <th>PAY_AMT4</th>
-      <th>PAY_AMT5</th>
-      <th>PAY_AMT6</th>
-      <th>default payment next month</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>30001</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>...</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-      <td>30002</td>
-    </tr>
-    <tr>
-      <th>unique</th>
-      <td>30001</td>
-      <td>83</td>
-      <td>4</td>
-      <td>6</td>
-      <td>6</td>
-      <td>58</td>
-      <td>13</td>
-      <td>13</td>
-      <td>13</td>
-      <td>13</td>
-      <td>...</td>
-      <td>21550</td>
-      <td>21012</td>
-      <td>20606</td>
-      <td>7945</td>
-      <td>7901</td>
-      <td>7520</td>
-      <td>6939</td>
-      <td>6899</td>
-      <td>6941</td>
-      <td>4</td>
-    </tr>
-    <tr>
-      <th>top</th>
-      <td>1195</td>
-      <td>50000</td>
-      <td>female</td>
-      <td>university</td>
-      <td>2</td>
-      <td>29</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>not default</td>
-    </tr>
-    <tr>
-      <th>freq</th>
-      <td>1</td>
-      <td>3365</td>
-      <td>18112</td>
-      <td>14030</td>
-      <td>15964</td>
-      <td>1605</td>
-      <td>14737</td>
-      <td>15730</td>
-      <td>15764</td>
-      <td>16455</td>
-      <td>...</td>
-      <td>3195</td>
-      <td>3506</td>
-      <td>4020</td>
-      <td>5249</td>
-      <td>5396</td>
-      <td>5968</td>
-      <td>6408</td>
-      <td>6703</td>
-      <td>7173</td>
-      <td>23364</td>
-    </tr>
-  </tbody>
-</table>
-<p>4 rows × 25 columns</p>
-</div>
-
-
-
-
-```python
-credit.info()
-```
-
-    <class 'pandas.core.frame.DataFrame'>
-    Int64Index: 30002 entries, 0 to 30202
-    Data columns (total 25 columns):
-     #   Column                      Non-Null Count  Dtype
-    ---  ------                      --------------  -----
-     0   ID                          30001 non-null  object
-     1   LIMIT_BAL                   30002 non-null  object
-     2   SEX                         30002 non-null  object
-     3   EDUCATION                   30002 non-null  object
-     4   MARRIAGE                    30002 non-null  object
-     5   AGE                         30002 non-null  object
-     6   PAY_0                       30002 non-null  object
-     7   PAY_2                       30002 non-null  object
-     8   PAY_3                       30002 non-null  object
-     9   PAY_4                       30002 non-null  object
-     10  PAY_5                       30002 non-null  object
-     11  PAY_6                       30002 non-null  object
-     12  BILL_AMT1                   30002 non-null  object
-     13  BILL_AMT2                   30002 non-null  object
-     14  BILL_AMT3                   30002 non-null  object
-     15  BILL_AMT4                   30002 non-null  object
-     16  BILL_AMT5                   30002 non-null  object
-     17  BILL_AMT6                   30002 non-null  object
-     18  PAY_AMT1                    30002 non-null  object
-     19  PAY_AMT2                    30002 non-null  object
-     20  PAY_AMT3                    30002 non-null  object
-     21  PAY_AMT4                    30002 non-null  object
-     22  PAY_AMT5                    30002 non-null  object
-     23  PAY_AMT6                    30002 non-null  object
-     24  default payment next month  30002 non-null  object
-    dtypes: object(25)
-    memory usage: 6.0+ MB
-
-
-
-```python
-#display row of choice, in this case to confirm the rows that containt he duplicate headers so that we can be sure we'll be deleting the right rows.
-display(credit.loc[201])
-```
-
-
-    ID                            NaN
-    LIMIT_BAL                      X1
-    SEX                            X2
-    EDUCATION                      X3
-    MARRIAGE                       X4
-    AGE                            X5
-    PAY_0                          X6
-    PAY_2                          X7
-    PAY_3                          X8
-    PAY_4                          X9
-    PAY_5                         X10
-    PAY_6                         X11
-    BILL_AMT1                     X12
-    BILL_AMT2                     X13
-    BILL_AMT3                     X14
-    BILL_AMT4                     X15
-    BILL_AMT5                     X16
-    BILL_AMT6                     X17
-    PAY_AMT1                      X18
-    PAY_AMT2                      X19
-    PAY_AMT3                      X20
-    PAY_AMT4                      X21
-    PAY_AMT5                      X22
-    PAY_AMT6                      X23
-    default payment next month      Y
-    Name: 201, dtype: object
-
-
-
-```python
-#Having looked at the data in Excel I know that the first 201 rows are duplicated and the headers are then repeated.  I removed the duplicate rows above, but now need to find the duplicate headers and delete them manually.
-credit.drop([201],inplace=True)
-credit.drop([202],inplace=True)
-```
-
-### Now that the data are clean they are exported as a new .csv file and re-imported so that they cleaned columns are recognized as numeric.  Non-numeric data will be label encoded to enable thei inclusion in the analyses.
+### Step 3. Now that the data are clean they are exported as a new .csv file and re-imported so that the values are all recognized as numeric.  Any remaining non-numeric data will be label encoded so that they can be recognized by the algorithms and included in the analyses.
 
 
 ```python
 #export cleaned df called 'credit' to CSV called 'Credit_Clean'
 credit.to_csv (r'C:\Users\rob\Data Analytics Course\Project 2\Credit_Clean.csv', index = False, header=True)
-```
-
-
-```python
 #import clean csv
 data = pd.read_csv('Credit_Clean.csv')
 Credit_Clean=data
 ```
 
-
-```python
-#check for missing values
-print(Credit_Clean.isnull().sum())
-```
-
-    ID                            0
-    LIMIT_BAL                     0
-    SEX                           0
-    EDUCATION                     0
-    MARRIAGE                      0
-    AGE                           0
-    PAY_0                         0
-    PAY_2                         0
-    PAY_3                         0
-    PAY_4                         0
-    PAY_5                         0
-    PAY_6                         0
-    BILL_AMT1                     0
-    BILL_AMT2                     0
-    BILL_AMT3                     0
-    BILL_AMT4                     0
-    BILL_AMT5                     0
-    BILL_AMT6                     0
-    PAY_AMT1                      0
-    PAY_AMT2                      0
-    PAY_AMT3                      0
-    PAY_AMT4                      0
-    PAY_AMT5                      0
-    PAY_AMT6                      0
-    default payment next month    0
-    dtype: int64
-
-
-
-```python
-Credit_Clean.info()
-```
-
-    <class 'pandas.core.frame.DataFrame'>
-    RangeIndex: 30000 entries, 0 to 29999
-    Data columns (total 25 columns):
-     #   Column                      Non-Null Count  Dtype
-    ---  ------                      --------------  -----
-     0   ID                          30000 non-null  int64
-     1   LIMIT_BAL                   30000 non-null  int64
-     2   SEX                         30000 non-null  object
-     3   EDUCATION                   30000 non-null  object
-     4   MARRIAGE                    30000 non-null  int64
-     5   AGE                         30000 non-null  int64
-     6   PAY_0                       30000 non-null  int64
-     7   PAY_2                       30000 non-null  int64
-     8   PAY_3                       30000 non-null  int64
-     9   PAY_4                       30000 non-null  int64
-     10  PAY_5                       30000 non-null  int64
-     11  PAY_6                       30000 non-null  int64
-     12  BILL_AMT1                   30000 non-null  int64
-     13  BILL_AMT2                   30000 non-null  int64
-     14  BILL_AMT3                   30000 non-null  int64
-     15  BILL_AMT4                   30000 non-null  int64
-     16  BILL_AMT5                   30000 non-null  int64
-     17  BILL_AMT6                   30000 non-null  int64
-     18  PAY_AMT1                    30000 non-null  int64
-     19  PAY_AMT2                    30000 non-null  int64
-     20  PAY_AMT3                    30000 non-null  int64
-     21  PAY_AMT4                    30000 non-null  int64
-     22  PAY_AMT5                    30000 non-null  int64
-     23  PAY_AMT6                    30000 non-null  int64
-     24  default payment next month  30000 non-null  object
-    dtypes: int64(22), object(3)
-    memory usage: 5.7+ MB
-
-
-### As you can see, not all of the data are numeric.  We'll address this by encoding the data listed as objects into numeric values:
+### Now we'll encode the data listed as objects  so thet they'll be recognized as numeric values:
 
 
 ```python
@@ -646,38 +323,23 @@ Credit_Clean.info()
 le=LabelEncoder()
 le.fit(Credit_Clean['SEX'])
 Credit_Clean['SEX']=le.transform(Credit_Clean['SEX'])
-```
 
-
-```python
 #Label Encode Default
 le=LabelEncoder()
 le.fit(Credit_Clean['default payment next month'])
 Credit_Clean['default payment next month']=le.transform(Credit_Clean['default payment next month'])
-```
 
-
-```python
 #Label Encode Default
 le=LabelEncoder()
 le.fit(Credit_Clean['EDUCATION'])
 Credit_Clean['EDUCATION']=le.transform(Credit_Clean['EDUCATION'])
-```
 
-
-```python
 #convert non-numeric columns to a series of binary numeric 'Dummy' columns if encoding will produce more than 2 values
 #Credit_Clean = pd.get_dummies(Credit_Clean)
-```
 
-
-```python
 #check data types are all numeric after encoding
 Credit_Clean.dtypes
 ```
-
-
-
 
     ID                            int64
     LIMIT_BAL                     int64
