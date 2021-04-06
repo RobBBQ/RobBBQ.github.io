@@ -117,7 +117,7 @@ data.head()
       <td>437641.96875</td>
       <td>6470972.5</td>
       <td>-469.501831</td>
-      <td>NORDLAND GP.</td>
+      <td>KHUFF FM.</td>
       <td>NaN</td>
       <td>19.480835</td>
       <td>NaN</td>
@@ -141,7 +141,7 @@ data.head()
       <td>437641.96875</td>
       <td>6470972.5</td>
       <td>-469.653809</td>
-      <td>NORDLAND GP.</td>
+      <td>KHUFF FM.</td>
       <td>NaN</td>
       <td>19.468800</td>
       <td>NaN</td>
@@ -165,7 +165,7 @@ data.head()
       <td>437641.96875</td>
       <td>6470972.5</td>
       <td>-469.805786</td>
-      <td>NORDLAND GP.</td>
+      <td>KHUFF FM.</td>
       <td>NaN</td>
       <td>19.468800</td>
       <td>NaN</td>
@@ -189,7 +189,7 @@ data.head()
       <td>437641.96875</td>
       <td>6470972.5</td>
       <td>-469.957794</td>
-      <td>NORDLAND GP.</td>
+      <td>KHUFF FM.</td>
       <td>NaN</td>
       <td>19.459282</td>
       <td>NaN</td>
@@ -213,7 +213,7 @@ data.head()
       <td>437641.96875</td>
       <td>6470972.5</td>
       <td>-470.109772</td>
-      <td>NORDLAND GP.</td>
+      <td>KHUFF FM.</td>
       <td>NaN</td>
       <td>19.453100</td>
       <td>NaN</td>
