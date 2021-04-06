@@ -393,20 +393,16 @@ predRsquared = r2_score(y_test,predictions)
 rmse = sqrt(mean_squared_error(y_test, predictions))
 print('R Squared: %.3f' % predRsquared)
 print('RMSE: %.3f' % rmse)
-```
-#### Random Forest Regression R Squared: 0.465
-#### Random Forest Regression Root Mean Square Error (RMSE): $94050.67
-
-### Now we'll plot the result of the model:
-```python
 #plotting results
 plt.scatter(y_test, predictions, color=['blue'], alpha = 0.5)
 plt.xlabel('Ground Truth')
 plt.ylabel('Predictions')
 plt.show();
 ```
-
 ![](/images/Project1images/RForkner_Credit_One_Portfolio_57_0.png)
+#### Random Forest Regression R Squared: 0.465
+#### Random Forest Regression Root Mean Square Error (RMSE): $94050.67
+
 
 
 ### Here's the Linear Regression Model:
@@ -420,12 +416,6 @@ predRsquared = r2_score(y_test,predictions)
 rmse = sqrt(mean_squared_error(y_test, predictions))
 print('R Squared: %.3f' % predRsquared)
 print('RMSE: %.3f' % rmse)
-```
-#### Linear Regression R Squared: 0.336
-#### Linear Regression Root Mean Square Error (RMSE): $104731.68
-
-### Now we'll plot the result of the model:
-```python
 #plotting results
 plt.scatter(y_test, predictions, color=['green'], alpha = 0.5)
 plt.xlabel('Ground Truth')
@@ -433,6 +423,9 @@ plt.ylabel('Predictions')
 plt.show();
 ```
 ![](/images/Project1images/RForkner_Credit_One_Portfolio_66_0.png)
+#### Linear Regression R Squared: 0.336
+#### Linear Regression Root Mean Square Error (RMSE): $104731.68
+
 
 
 ### Here's the Support Vector Regression Model:
@@ -446,12 +439,6 @@ predRsquared = r2_score(y_test,predictions)
 rmse = sqrt(mean_squared_error(y_test, predictions))
 print('R Squared: %.3f' % predRsquared)
 print('RMSE: %.3f' % rmse)
-```
-#### Linear Regression R Squared: -0.036
-#### Linear Regression Root Mean Square Error (RMSE): $130824.59
-
-### Now we'll plot the result of the model:
-```python
 #plotting results
 plt.scatter(y_test, predictions, color=['red'], alpha = 0.5)
 plt.xlabel('Ground Truth')
@@ -459,6 +446,9 @@ plt.ylabel('Predictions')
 plt.show();
 ```
 ![](/images/Project1images/RForkner_Credit_One_Portfolio_75_0.png)
+#### Linear Regression R Squared: -0.036
+#### Linear Regression Root Mean Square Error (RMSE): $130824.59
+
 
 
 ## All three regression analyses returned very poor results with regards to accuracy!  The errors are very large and we'd like to see the predictions vs. ground truth plots be a bit more linear.  What should we do now?  Maybe instead of a linear model a classification model will work better.
