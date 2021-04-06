@@ -53,7 +53,7 @@ CombinedDFT <-cbind(CombinedDF,paste(CombinedDF$Date,CombinedDF$Time), stringsAs
 ```
 ## Here's an example of the combined dataset.  1,569,894 entries in 6 columns!!!  That's power data from 2006-2010 taken every minute!
 
-<img src="https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Combined%20DFT.jpg">
+<img src="/images/Combined%20DFT.jpg">
 
 ### Step 3. We'll now use an R fucntion called 'lubridate' to create "year", "quarter", "month", "week", "day", "hour", and "minute" attributes
 
@@ -94,7 +94,7 @@ plot_ly(house9Jan2008x10min, x = ~house9Jan2008x10min$DateTime, y = ~house9Jan20
 ### Here's the same plot with measurements taken every 10 minutes:
 
 
-![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan%209th%20power%20consumption%2010%20min.jpeg)
+![](/images/Jan%209th%20power%20consumption%2010%20min.jpeg)
 
 ### Step 6. Now we'll prepare the data for Time Series Analysis.  In this case, to get enough of a sample for forecasting, we'll sample the whole month of January, 2008, with power measurements taken every hour.  We'll use the same code for each submeter.  We'll then plot each sub-meter's readings for the month:
 ```r
