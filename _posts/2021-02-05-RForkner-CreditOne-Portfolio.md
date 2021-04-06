@@ -8,13 +8,13 @@ excerpt: "Data Analytics"
 mathjax: "true"
 ---
 
-## Overview
+# Overview
 ### Over the past year or so Credit One has seen an increase in the number of customers who are defaulting on their payments.  They need a much better way to understand how much credit to allow someone to use or, at the very least, if someone should be approved or not.
 
-# Project Goals
+## Project Goals
 ### Use the demographic data to determine:
-####1. How much credit should customers be allowed
-####2. Should a potential customer be approved for credit?
+#### 1. How much credit should customers be allowed
+#### 2. Should a potential customer be approved for credit?
 
 ### Step 1. Install Modules and Libraries
 
@@ -24,10 +24,6 @@ mathjax: "true"
 from sqlalchemy import create_engine
 import pymysql
 import pandas as pd
-```
-
-
-```python
 #DS Basics
 import numpy as np
 import pandas as pd
@@ -36,10 +32,8 @@ import matplotlib.pyplot as plt
 import math
 from math import sqrt
 import seaborn as sns
-
 #Pandas Profiling
 import pandas_profiling
-
 #SKLearn Stuff
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
@@ -49,15 +43,12 @@ from sklearn.svm import SVR
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 from sklearn import linear_model
-
 #model metrics
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import cross_val_score
 from sklearn import tree
 from sklearn import metrics
-
-
 ```
 
 ### Step 2. Download dataset with SQL connection
@@ -66,38 +57,24 @@ from sklearn import metrics
 ```python
 #create a connection to MySQL database
 db_connection_str = 'mysql+pymysql://deepanalytics:Sqltask1234!@34.73.222.197/deepanalytics'
-```
-
-
-```python
-#connect to the MySQL
 db_connection = create_engine(db_connection_str)
-```
-
-
-```python
 #use the following SELECT statement and query the Credit One data to extract it into a Pandas dataframe
 df = pd.read_sql('SELECT * FROM credit', con=db_connection)
-```
-
-
-```python
 #save data to CSV
 df.to_csv('credit_one.csv',index=False)
 ```
 
-### Known issues with data and strategy for addressing concerns:
-* Issues
-1. Not all data are numerical, and even numerical columns read as objects
-2. Repeated rows
-3. Repeated headers
-4. Classification analyses will require discretization
+### Issues with data:
+####1. Not all data are numerical, and even numerical columns read as objects
+####2. Repeated rows
+####3. Repeated headers
+####4. Classification analyses will require discretization
 
-* Fixes
-1. Remove all non-numeric rows.  This was done manually after identifying them in excel as an extra set of headers.  However, even after their removal, in order for Jupyter to read the column numerical, the dataset needs to be saved as a csv file and re-imported.  Otherwise conversions must be coded manually per column/variable
-2. Delete repeated rows
-3. Delete extra headers
-4. Discretize variables as required.
+### Strategies for addressing concerns:
+#### 1. Remove all non-numeric rows.  This was done manually after identifying them in excel as an extra set of headers.  However, even after their removal, in order for Jupyter to read the column numerical, the dataset needs to be saved as a csv file and re-imported.  Otherwise conversions must be coded manually per column/variable
+#### 2. Delete repeated rows
+#### 3. Delete extra headers
+#### 4. Discretize variables as required.
 
 
 ```python
