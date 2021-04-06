@@ -504,7 +504,6 @@ model = algo.fit(X_train,y_train)
 #Predictions
 preds = model.predict(X_test)
 print(classification_report(y_test, preds))
-```
 
                   precision    recall  f1-score   support
 
@@ -517,7 +516,6 @@ print(classification_report(y_test, preds))
        macro avg       0.30      0.26      0.25      7500
     weighted avg       0.71      0.78      0.71      7500
 
-```python
 print("Accuracy:",metrics.accuracy_score(y_test, preds))
 ```
 ### Accuracy: 0.7773
@@ -529,275 +527,38 @@ print("Accuracy:",metrics.accuracy_score(y_test, preds))
 #importance of variables
 feature_imp = pd.Series(algo.feature_importances_,index=feature_names).sort_values(ascending=False)
 feature_imp
-```
 
     AGE                           0.625595
     EDUCATION                     0.235429
     default payment next month    0.057261
     MARRIAGE                      0.056731
-    SEX                           0.024984
-    dtype: float64
-
-
-
-### What about whether someone should be granted credit at all?  In this case we need to change the dependent variable we're modeling for from credit limit (LIMIT_BAL) to default.  Default is already a classified answer, either someone defaults or not, so the model will be based on classification methods rather than a regression.
-
-####  First some additional tidying.  We'll remove past payment data that do not affect credit score, just to slim down the model.  The values -2 = No consumption; -1 = Paid in full, so we will remove them:
-
-
-```python
-#Remove Past payment data that do not affect credit score.
-Credit_Clean['PAY_0'] = Credit_Clean['PAY_0'].replace(-2,0)
-Credit_Clean['PAY_2'] = Credit_Clean['PAY_2'].replace(-2,0)
-Credit_Clean['PAY_3'] = Credit_Clean['PAY_3'].replace(-2,0)
-Credit_Clean['PAY_4'] = Credit_Clean['PAY_4'].replace(-2,0)
-Credit_Clean['PAY_5'] = Credit_Clean['PAY_5'].replace(-2,0)
-Credit_Clean['PAY_6'] = Credit_Clean['PAY_6'].replace(-2,0)
-
-# do the same for the -1 variable
-Credit_Clean['PAY_0'] = Credit_Clean['PAY_0'].replace(-1,0)
-Credit_Clean['PAY_2'] = Credit_Clean['PAY_2'].replace(-1,0)
-Credit_Clean['PAY_3'] = Credit_Clean['PAY_3'].replace(-1,0)
-Credit_Clean['PAY_4'] = Credit_Clean['PAY_4'].replace(-1,0)
-Credit_Clean['PAY_5'] = Credit_Clean['PAY_5'].replace(-1,0)
-Credit_Clean['PAY_6'] = Credit_Clean['PAY_6'].replace(-1,0)
+    SEX                           0.024984 
 ```
 
-### Now we'll re-order the dataframe and set the variables.
 
 
+### What about the question  of whether someone should be granted credit at all?  In this case we need to change the dependent variable we're modeling for from credit limit (LIMIT_BAL) to default, because if a customer defaults, the creditor wouldn't want to grant credit!  
 ```python
 #re-order columns to put desired dependent variable last
 column_names = ["ID", "SEX", "MARRIAGE", "AGE","PAY_0","PAY_2","PAY_3","PAY_4","PAY_5","PAY_6","BILL_AMT1","BILL_AMT2","BILL_AMT3","BILL_AMT4","BILL_AMT5","BILL_AMT6","PAY_AMT1","PAY_AMT2","PAY_AMT3","PAY_AMT4","PAY_AMT5","PAY_AMT6","EDUCATION","LIMIT_BAL","default payment next month"]
 Credit_Clean = Credit_Clean.reindex(columns=column_names)
-#print(Credit_Clean)
-```
-
-
-```python
 #features, setting independent variables; removed ID as it was skewing the dataset
 X = Credit_Clean.iloc[:,1:24]
-print('Summary of feature sample')
-X.head()
-```
-
-    Summary of feature sample
-
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>SEX</th>
-      <th>MARRIAGE</th>
-      <th>AGE</th>
-      <th>PAY_0</th>
-      <th>PAY_2</th>
-      <th>PAY_3</th>
-      <th>PAY_4</th>
-      <th>PAY_5</th>
-      <th>PAY_6</th>
-      <th>BILL_AMT1</th>
-      <th>...</th>
-      <th>BILL_AMT5</th>
-      <th>BILL_AMT6</th>
-      <th>PAY_AMT1</th>
-      <th>PAY_AMT2</th>
-      <th>PAY_AMT3</th>
-      <th>PAY_AMT4</th>
-      <th>PAY_AMT5</th>
-      <th>PAY_AMT6</th>
-      <th>EDUCATION</th>
-      <th>LIMIT_BAL</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>1</td>
-      <td>24</td>
-      <td>2</td>
-      <td>2</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3913</td>
-      <td>...</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>689</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>3</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>0</td>
-      <td>2</td>
-      <td>26</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>2682</td>
-      <td>...</td>
-      <td>3455</td>
-      <td>3261</td>
-      <td>0</td>
-      <td>1000</td>
-      <td>1000</td>
-      <td>1000</td>
-      <td>0</td>
-      <td>2000</td>
-      <td>3</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>0</td>
-      <td>2</td>
-      <td>34</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>29239</td>
-      <td>...</td>
-      <td>14948</td>
-      <td>15549</td>
-      <td>1518</td>
-      <td>1500</td>
-      <td>1000</td>
-      <td>1000</td>
-      <td>1000</td>
-      <td>5000</td>
-      <td>3</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>0</td>
-      <td>1</td>
-      <td>37</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>46990</td>
-      <td>...</td>
-      <td>28959</td>
-      <td>29547</td>
-      <td>2000</td>
-      <td>2019</td>
-      <td>1200</td>
-      <td>1100</td>
-      <td>1069</td>
-      <td>1000</td>
-      <td>3</td>
-      <td>0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1</td>
-      <td>1</td>
-      <td>57</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>8617</td>
-      <td>...</td>
-      <td>19146</td>
-      <td>19131</td>
-      <td>2000</td>
-      <td>36681</td>
-      <td>10000</td>
-      <td>9000</td>
-      <td>689</td>
-      <td>679</td>
-      <td>3</td>
-      <td>0</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 23 columns</p>
-</div>
-
-
-
-
-```python
 #Setting Dependent Variable
 y = Credit_Clean['default payment next month']
-y.head()
 ```
 
 
-
-
-    0    0
-    1    0
-    2    1
-    3    1
-    4    1
-    Name: default payment next month, dtype: int32
-
-
-
-### Now we'll prepare and run the model
-
+### 'Default' is already a binned category, either someone defaults or not, so we'll go ahead and use a classification model to answer this question.
 
 ```python
 #Train/Test Split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .25, random_state = 123)
-```
-
-
-```python
 #Modeling (Classification)
 algo = RandomForestClassifier(n_estimators=100)
 model = algo.fit(X_train,y_train)
-```
-
-
-```python
 #Predictions
 preds = model.predict(X_test)
-```
-
-
-```python
 print(classification_report(y_test, preds))
 ```
 
@@ -810,75 +571,22 @@ print(classification_report(y_test, preds))
        macro avg       0.72      0.66      0.68      7500
     weighted avg       0.79      0.81      0.79      7500
 
-
-
-
 ```python
 print("Accuracy:",metrics.accuracy_score(y_test, preds))
 ```
-
-    Accuracy: 0.8104
-
-
-
-```python
-feature_names=X.columns
-print(feature_names)
-```
-
-    Index(['SEX', 'MARRIAGE', 'AGE', 'PAY_0', 'PAY_2', 'PAY_3', 'PAY_4', 'PAY_5',
-           'PAY_6', 'BILL_AMT1', 'BILL_AMT2', 'BILL_AMT3', 'BILL_AMT4',
-           'BILL_AMT5', 'BILL_AMT6', 'PAY_AMT1', 'PAY_AMT2', 'PAY_AMT3',
-           'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6', 'EDUCATION', 'LIMIT_BAL'],
-          dtype='object')
-
-
+### Accuracy: 0.8104
+    
+### In this case using classification modeling we've got a result that is about 81% accurate and weighs payment and billing history along with age as the most important variables in determining whather or not someone will default:
 
 ```python
 #importance of variables
 feature_imp = pd.Series(algo.feature_importances_,index=feature_names).sort_values(ascending=False)
 feature_imp
-```
-
-
-
 
     PAY_0        0.092924
     AGE          0.077121
     BILL_AMT1    0.067179
     BILL_AMT2    0.060077
     BILL_AMT3    0.056737
-    PAY_AMT1     0.056130
-    BILL_AMT6    0.055266
-    BILL_AMT4    0.054641
-    BILL_AMT5    0.054381
-    PAY_AMT2     0.053888
-    PAY_AMT6     0.050081
-    PAY_AMT3     0.049997
-    PAY_AMT5     0.048750
-    PAY_AMT4     0.048078
-    PAY_2        0.041329
-    PAY_3        0.024142
-    EDUCATION    0.020740
-    PAY_4        0.018375
-    PAY_5        0.017828
-    PAY_6        0.015764
-    MARRIAGE     0.015345
-    SEX          0.012817
-    LIMIT_BAL    0.008410
-    dtype: float64
+```    
 
-
-
-### So we end with a result of about 81% accuracy in answering the question whether or not we can come up with a model that can predict whether a customer should be given credit at all, and using our one example model we see that arriving at that answer used quite a few of the variables, including payment and billing history.
-
-
-```python
-#Basic Correlation Matrix
-#corrMat = Credit_Clean.corr()
-#print(corrMat)
-```
-
-![](/images/Project1images/RForkner_Credit_One_Portfolio_Corr.png)
-
-#### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history.
