@@ -314,3 +314,7 @@ grouped_lith = data.groupby('LITH')
 ![](/images/AnhydriteImages/Map.jpg)
 
 
+### Conclusions from mapping bedded anhydrite:
+#### Both the thickness and number of bedded anhydrite units increases to the northeast (paleo-seaward)
+#### In about 80% of cases, when bedded anhydrite occurs, it occurs where the subunit is thickest
+#### Bedded anhydrites occur as evaporative remnants subsequent to accommodation maximum.  They are not lowstand deposits!
