@@ -78,7 +78,7 @@ plot_ly(house9Jan2008, x = ~house9Jan2008$DateTime, y = ~house9Jan2008$Sub_meter
          yaxis = list (title = "Power (watt-hours)"))
 ```
 
-![](RobBBQ.github.io/blob/master/images/Jan%209%20power%20consumption%20all.jpeg)
+![](/images/Jan%209%20power%20consumption%20all.jpeg)
 
 ### Step 5. Since that uses power measurements taken every minute, we can probably coarsen the data sampling to every 10 minutes and still see the relevant oscillations in power usage
 ```r
@@ -117,7 +117,7 @@ autoplot(DCtshouseJan2008sm_1, main = "January, 2008 Sub-meter 1")
 ```
 ### Here's a plot of the time series decomposition: 
 
-![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan%202008%20sm1%20kitchen%20decomp.jpeg)
+![](/images/Jan%202008%20sm1%20kitchen%20decomp.jpeg)
 
 ### Step 8. Now we will create a time series linear models (tslm) for Jan 2008 for each sub-meter.  There are many models we can apply, but in this case we'll run a simple linear model for the trend and the seasonality.  We'll use these models in the forecast package to forecast usaage for the next day.
 ```r
@@ -127,9 +127,9 @@ forecastfitSM1 <- forecast(fitSM1, h=24, level=c(80,90))
 autoplot(forecastfitSM1, colour = 'green', xlab = "Time", ylab = "Watt Hours", main = "January, 2008 Sub-meter 1")
 ```
 ### Here's a plot of the power usage forecast for each submeter:  
-![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan2008%20sm1%20kitchen%20forecast.jpeg)
-![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan2008%20sm2%20laundry%20forecast.jpeg)
-![](https://github.com/RobBBQ/RobBBQ.github.io/blob/master/images/Jan2008%20sm3%20WHAC%20forecast.jpeg)
+![](/images/Jan2008%20sm1%20kitchen%20forecast.jpeg)
+![]/images/Jan2008%20sm2%20laundry%20forecast.jpeg)
+![](/images/Jan2008%20sm3%20WHAC%20forecast.jpeg)
 ### Each forecast uses the trend and seasonlity to make a prediction of power usage for 24 hours in the future with 80 and 90% confidence bands based on the linear model. 
 ### Step 9. How will each forecast perform?  We'll need to compare the result to future power usage to find out!
 
