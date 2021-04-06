@@ -368,18 +368,7 @@ Credit_Clean.dtypes
 
 
 
-### Now that the data are workable, we'll do a little EDA.  Since we're wondering how much credit to give customers, we'll look at LIMIT_BAL as the dependent variable
-
-
-```python
-#Data Visualization, Plot Histogram with bins
-plt.hist(Credit_Clean['LIMIT_BAL'], bins=4)
-plt.show()
-```
-
-
-![png](RForkner_Credit_One_Portfolio_files/RForkner_Credit_One_Portfolio_33_0.png)
-
+### GREAT!  Now that the data are all numeric, we'll explore the data a little bit.  Since we're wondering how much credit to give customers, we'll look at how the data might relate to customer's credit limit (LIMIT_BAL):
 
 
 ```python
@@ -388,16 +377,15 @@ plt.hist(Credit_Clean['LIMIT_BAL'], bins=10)
 plt.show()
 ```
 
-
-![png](RForkner_Credit_One_Portfolio_files/RForkner_Credit_One_Portfolio_34_0.png)
-
-
+![](images/Project1images/RForkner_Credit_One_Portfolio_34_0.png)
 
 ```python
 #Basic Correlation Matrix
 #corrMat = Credit_Clean.corr()
 #print(corrMat)
 ```
+
+![](images/Project1images/RForkner_Credit_One_Portfolio_Corr.png)
 
 #### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history (green box).
 ![Heatmap%20Corr.png](attachment:Heatmap%20Corr.png)
