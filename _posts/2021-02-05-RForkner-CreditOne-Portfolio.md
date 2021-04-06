@@ -284,9 +284,7 @@ le.fit(Credit_Clean['EDUCATION'])
 Credit_Clean['EDUCATION']=le.transform(Credit_Clean['EDUCATION'])
 
 #convert non-numeric columns to a series of binary numeric 'Dummy' columns if encoding will produce more than 2 values
-#Credit_Clean = pd.get_dummies(Credit_Clean)
-
-#check data types are all numeric after encoding
+Credit_Clean = pd.get_dummies(Credit_Clean)
 Credit_Clean.dtypes
 ```
 
@@ -328,7 +326,7 @@ plt.hist(Credit_Clean['LIMIT_BAL'], bins=10)
 plt.show()
 ```
 
-![](images/Project1images/RForkner_Credit_One_Portfolio_34_0.png)
+<img src="images/Project1images/RForkner_Credit_One_Portfolio_34_0.png">
 
 ```python
 #Basic Correlation Matrix
@@ -336,7 +334,7 @@ plt.show()
 #print(corrMat)
 ```
 
-![](images/Project1images/RForkner_Credit_One_Portfolio_Corr.png)
+<img src="images/Project1images/RForkner_Credit_One_Portfolio_Corr.png">
 
 #### Looking at a quick heatmap of correlation between variables it's apparent that there isn't a direct relationship between the credit limit granted customers (LIMIT_BAL) and any other variable.  However, it is apparent that whether or not a customer will default does correlate with their payment history (green box).
 ![Heatmap%20Corr.png](attachment:Heatmap%20Corr.png)
